@@ -1,0 +1,110 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Customer",
+		"_postman_id": "2dff27a5-0b51-3f16-e3b4-b0a289797f0d",
+		"description": "Nest-Customer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"url": "http://localhost:3000/api/v1/customer/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\t\"customerId\" :\"5f36db0ee1f96a1d9866074b\",\r\n\t\"password\" : \"abcd1234@\"\r\n}"
+				},
+				"description": "http://localhost:3000/api/v1/customer/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Get customer by id",
+			"request": {
+				"url": "http://localhost:3000/api/v1/customer/5f36db0ee1f96a1d9866074b",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzNmRiMGVlMWY5NmExZDk4NjYwNzRiIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc0MzE4NTAsImV4cCI6MTU5NzQ0MTg1MH0.jHizuIkDHNHMc2SrdkcrlmTKnWL9wA0xEqln3EUESto",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "http://localhost:3000/api/v1/customer/5f36db0ee1f96a1d9866074b"
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"url": "http://localhost:3000/api/v1/customer/register",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Aritra Chowdhury\",\n\t\"email\" : \"abc5@mail.com\",\n\t\"password\" : \"abcd1234@\"\n}"
+				},
+				"description": "http://localhost:3000/api/v1/customer/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all customer",
+			"request": {
+				"url": "http://localhost:3000/api/v1/customer",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzN2YzM2U1NTJhNzYyN2IwZGJjNGM4IiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc1MDIzMjQsImV4cCI6MTU5NzUxMjMyNH0.mmVc8aiaFMLkE4BRlfSGjc1xThZUlb_I_IZX5950e6M",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "http://localhost:3000/api/v1/customer"
+			},
+			"response": []
+		},
+		{
+			"name": "Update customer",
+			"request": {
+				"url": "http://localhost:3000/api/v1/customer",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzN2YzM2U1NTJhNzYyN2IwZGJjNGM4IiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc1MDIzMjQsImV4cCI6MTU5NzUxMjMyNH0.mmVc8aiaFMLkE4BRlfSGjc1xThZUlb_I_IZX5950e6M",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Aritra Chowdhury\",\n    \"email\": \"abc5@mail.com\",\n\t \"userDetails\": {\n            \"dob\" : \"13/01/1996\",\n            \"martial_status\": \"unmarried\",\n            \"pan_card\" : \"PAN123456\",\n            \"nationality\" : \"Indian\",\n            \"phone_number\" : \"1242424234234\"\n    },\n    \"mailingaddress\": {\n            \"address1\" : \"123\",\n            \"address2\" : \"12345\",\n            \"city\" : \"Kolkata\",\n            \"state\" : \"West Bengal\",\n            \"country\" : \"India\",\n            \"zip_code\" : \"700129\"\n    }\n}"
+				},
+				"description": "http://localhost:3000/api/v1/customer"
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,112 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Account",
+		"_postman_id": "88d413bb-b2ab-ca21-bfa4-d9e2012f6da2",
+		"description": "Account details",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Deactivate or remove account",
+			"request": {
+				"url": "http://localhost:3000/api/v1/account/5f38093ac7cd061eb868b841",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzN2YzM2U1NTJhNzYyN2IwZGJjNGM4IiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc1MDc0OTgsImV4cCI6MTU5NzUxNzQ5OH0.-0kl1ECTcVOIsaWnkr1r0KNf2fCuE3zWWMFeWpZlL8c",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "http://localhost:3000/api/v1/account/5f38093ac7cd061eb868b841"
+			},
+			"response": []
+		},
+		{
+			"name": "Get account by id",
+			"request": {
+				"url": "http://localhost:3000/api/v1/account/5f38093ac7cd061eb868b841",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzN2YzM2U1NTJhNzYyN2IwZGJjNGM4IiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc1MDc0OTgsImV4cCI6MTU5NzUxNzQ5OH0.-0kl1ECTcVOIsaWnkr1r0KNf2fCuE3zWWMFeWpZlL8c",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "http://localhost:3000/api/v1/account/5f38093ac7cd061eb868b841"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all account for a customer",
+			"request": {
+				"url": "http://localhost:3000/api/v1/account",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzN2YzM2U1NTJhNzYyN2IwZGJjNGM4IiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc1MDc0OTgsImV4cCI6MTU5NzUxNzQ5OH0.-0kl1ECTcVOIsaWnkr1r0KNf2fCuE3zWWMFeWpZlL8c",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "http://localhost:3000/api/v1/account"
+			},
+			"response": []
+		},
+		{
+			"name": "Update an account",
+			"request": {
+				"url": "http://localhost:3000/api/v1/account",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzN2YzM2U1NTJhNzYyN2IwZGJjNGM4IiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc1MDc0OTgsImV4cCI6MTU5NzUxNzQ5OH0.-0kl1ECTcVOIsaWnkr1r0KNf2fCuE3zWWMFeWpZlL8c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"account_number\": \"5f38093ac7cd061eb868b841\",\n\t\"account_type\" : \"Saving\",\n\t\"isJoint\" : false\n}"
+				},
+				"description": "http://localhost:3000/api/v1/account"
+			},
+			"response": []
+		},
+		{
+			"name": "Create account",
+			"request": {
+				"url": "http://localhost:3000/api/v1/account",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzN2YzM2U1NTJhNzYyN2IwZGJjNGM4IiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc1MDc0OTgsImV4cCI6MTU5NzUxNzQ5OH0.-0kl1ECTcVOIsaWnkr1r0KNf2fCuE3zWWMFeWpZlL8c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"account_type\" : \"Current\",\n\t\"isJoint\" : \"false\",\n\t \"userDetails\": {\n            \"dob\" : \"13/01/1996\",\n            \"martial_status\": \"unmarried\",\n            \"pan_card\" : \"PAN123456\",\n            \"nationality\" : \"Indian\",\n            \"phone_number\" : \"123456789\"\n    },\n    \"mailingaddress\": {\n            \"address1\" : \"123\",\n            \"address2\" : \"12345\",\n            \"city\" : \"Kolkata\",\n            \"state\" : \"West Bengal\",\n            \"country\" : \"India\",\n            \"zip_code\" : \"700129\"\n    }\n}"
+				},
+				"description": "http://localhost:3000/api/v1/account"
+			},
+			"response": []
+		}
+	]
+}
