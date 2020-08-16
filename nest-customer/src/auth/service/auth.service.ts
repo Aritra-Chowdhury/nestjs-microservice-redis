@@ -42,6 +42,10 @@ export class AuthService {
     }
 
     async register(customerRegisterDto : CustomerRegisterDto):Promise<any>{
+        if( customerRegisterDto.email){
+           const existingCustomer = await this.customerModel.findOne({email:customerRegisterDto.email});
+           if(existingCustomer) throw new RpcException({message:`Customer with email:${existingCustomer.email} already exists!`,status:HttpStatus.BAD_REQUEST});
+        }
         const salt = await bcrypt.genSalt(10);
         customerRegisterDto.password = await bcrypt.hash(customerRegisterDto.password,salt);
 

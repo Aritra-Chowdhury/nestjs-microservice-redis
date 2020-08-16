@@ -1,10 +1,12 @@
 import { Injectable, Inject, Logger, BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import * as CircuitBreaker  from 'opossum';
 
 import { CustomerRegisterDto } from '../dto/customer.register.dto';
 import { CustomerDto } from '../dto/customer.dto';
 import { ClientProxy } from '@nestjs/microservices';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+
 
 
 @Injectable()
@@ -69,4 +71,16 @@ export class CustomerService {
             throw new HttpException(result.message,parseInt(result.status));
         });
     }
+
+    // async breakerDesign(pattern:any , data:any){
+    //     const options = {
+    //         timeout: 3000, // If our function takes longer than 3 seconds, trigger a failure
+    //         errorThresholdPercentage: 50, // When 50% of requests fail, trip the circuit
+    //         resetTimeout: 30000 // After 30 seconds, try again.
+    //       };
+    //     const circuitBreaker = new CircuitBreaker(this.makeServiceCall,options);
+    //     return circuitBreaker.fire(pattern , data)
+    //                   .then((result=> {return result;}))
+    //                   .catch(console.log);
+    // }
 }
