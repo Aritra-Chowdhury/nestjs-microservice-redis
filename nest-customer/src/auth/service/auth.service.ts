@@ -4,15 +4,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt  from 'bcrypt';
 
-import { CustomerService } from '../../customer/services/customer.service';
 import { Customer } from 'src/customer/schema/customerSchema';
 import { CustomerRegisterDto } from '../dto/customer.register.dto';
 import { RpcException } from '@nestjs/microservices';
 
-
 @Injectable()
 export class AuthService {
-    constructor(private customerService : CustomerService ,private jwtService: JwtService,
+    constructor(private jwtService: JwtService,
         @InjectModel("Customer") private readonly customerModel: Model<Customer>){}
 
     async validateCustomer(customer: CustomerRegisterDto) :Promise<Customer>{
