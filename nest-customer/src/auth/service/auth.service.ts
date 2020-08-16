@@ -7,6 +7,7 @@ import * as bcrypt  from 'bcrypt';
 import { CustomerService } from '../../customer/services/customer.service';
 import { Customer } from 'src/customer/schema/customerSchema';
 import { CustomerRegisterDto } from '../dto/customer.register.dto';
+import { RpcException } from '@nestjs/microservices';
 
 
 @Injectable()
@@ -22,11 +23,11 @@ export class AuthService {
             customerRes = await this.customerModel.findOne({email:customer.email});
         }
         if(!customerRes)
-            throw new HttpException('Invalid email or customer id',HttpStatus.BAD_REQUEST);
+            throw new RpcException({message:'Invalid email or customer id',status:HttpStatus.BAD_REQUEST});
         else{
             const result = await bcrypt.compare(customer.password , customerRes.password);
             if(!result) 
-                throw new HttpException('Invalid email/customerId or password',HttpStatus.UNAUTHORIZED);
+            throw new RpcException({message:'Invalid email or customer id',status:HttpStatus.UNAUTHORIZED});
             
             return customerRes.transform();
         }

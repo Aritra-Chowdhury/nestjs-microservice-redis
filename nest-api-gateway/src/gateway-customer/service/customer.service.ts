@@ -1,4 +1,4 @@
-import { Injectable, Inject, Logger, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject, Logger, BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { CustomerRegisterDto } from '../dto/customer.register.dto';
@@ -53,15 +53,20 @@ export class CustomerService {
         return new Promise((resolve, reject)=>{
             this.clientCustomer.send<any,any>({cmd: pattern},data).subscribe(
                 (result) =>{
-
+                    if(result.status != 200 && result.status != 201){
+                        reject(result);
+                    }
                     this.logger.debug("In CustomerService::makeServiceCall::"+JSON.stringify(result));
-                    resolve(result);
+                    resolve(result.data);
                 },
                 (error) => {
                     this.logger.error(error);
                     reject("Error while calling customer service");
                 }
             );
+        }).catch(result=>{
+            this.logger.debug(" Response from account service with status:"+result.status+" message:"+JSON.stringify(result.message));
+            throw new HttpException(result.message,parseInt(result.status));
         });
     }
 }

@@ -1,4 +1,4 @@
-import { Injectable, Inject, Logger } from '@nestjs/common';
+import { Injectable, Inject, Logger, BadRequestException, HttpException } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AccountDto } from '../dto/account.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -53,15 +53,20 @@ export class AccountService {
         return new Promise((resolve, reject)=>{
             this.clientAccount.send<any,any>({cmd:pattern},data).subscribe(
                 (result) =>{
-
+                    if(result.status != 200 && result.status != 201){
+                        reject(result);
+                    }
                     this.logger.debug("In AccountService::makeServiceCall::"+JSON.stringify(result));
-                    resolve(result);
+                    resolve(result.data);
                 },
                 (error) => {
                     this.logger.error(error);
                     reject("Error while calling account service");
                 }
             );
+        }).catch(result=>{
+            this.logger.debug(" Response from account service with status:"+result.status+"message:"+JSON.stringify(result.message));
+            throw new HttpException(result.message,parseInt(result.status));
         });
     }
 

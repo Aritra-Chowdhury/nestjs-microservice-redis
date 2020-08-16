@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Inject, Logger, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject, Logger, BadRequestException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from "mongoose";
 import * as _ from 'lodash';
@@ -7,7 +7,7 @@ import { Account } from '../schema/account.schema';
 import { AccountDto } from '../dto/account.dto';
 import { SharedService } from 'src/shared/services/shared.service';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class AccountService {
@@ -24,7 +24,7 @@ export class AccountService {
 
         this.logger.debug("In AccountService controller::createAccount::"+accountDto);
         var customer = await this.updateCustomerData(_.pick(accountDto,['customerId','userDetails','mailingaddress']));
-        if(!customer) throw new NotFoundException("No customer found");
+        if(!customer) throw new RpcException({message:'Customer does not exist!',status:HttpStatus.NOT_FOUND});
 
         const account = await this.accountModel(_.pick(accountDto,['account_type','customerId','isJoint']));
         await account.save();
@@ -35,7 +35,7 @@ export class AccountService {
         const updatedAccount = await this.accountModel.findByIdAndUpdate(accountDto.account_number,{
             $set : _.pick(accountDto,['account_type','isJoint'])},{new : true});
         
-        if(!updatedAccount) throw new NotFoundException("Account not found");
+        if(!updatedAccount) throw new RpcException({message:'Account does not exist!',status:HttpStatus.NOT_FOUND});
 
         return this.populateAccountData(updatedAccount,accountDto.customer);
     }
@@ -43,7 +43,8 @@ export class AccountService {
     async getAllAccountByCustomerId(customerId:any,customer:any):Promise<any>{
         const accounts = await this.accountModel.find({customerId})
                                                 .sort('opening_date');
-        if(!accounts && accounts.length ==0) throw new NotFoundException("No account found or the customer id.");
+        if(!accounts && accounts.length ==0) 
+        throw new RpcException({message:'No account found or the customer id!',status:HttpStatus.NOT_FOUND});
 
         var accountsList = [];
         accounts.forEach((account)=>{
@@ -55,7 +56,8 @@ export class AccountService {
 
     async getAccountById(accountId:any,customer:any):Promise<any>{
         const account = await this.accountModel.findOne({_id : accountId , customerId : customer.customerId});
-        if(!account) throw new NotFoundException("No account found with the account number for the customer"); 
+        if(!account) 
+        throw new RpcException({message:'No account found with the account number for the customer!',status:HttpStatus.NOT_FOUND});
 
         return this.populateAccountData(account,customer);
     }
@@ -64,7 +66,8 @@ export class AccountService {
 
         const account = await this.accountModel.findByIdAndUpdate(accountId,{
             $set : {closing_date : new Date()}},{new : true});
-        if(!account) throw new NotFoundException("No account found with the account number for the customer"); 
+        if(!account) 
+        throw new RpcException({message:'No account found with the account number for the customer!',status:HttpStatus.NOT_FOUND});
                                        
         return this.populateAccountData(account,customer);
     }
@@ -91,16 +94,21 @@ export class AccountService {
     return new Promise((resolve, reject)=>{
         this.clientCustomer.send<any,any>({cmd:'updateCustomer'},data).subscribe(
             (result) =>{
-
+                if(result.status != 200){
+                    reject(result);
+                }
                 this.logger.debug("In CustomerService::makeServiceCall::"+JSON.stringify(result));
-                resolve(result);
+                resolve(result.data);
             },
             (error) => {
                 this.logger.error(error);
                 reject("Error while calling customer service");
             }
         );
-    });
+    }).catch(result=>{
+            this.logger.debug(" Response from account service with status:"+result.status+"message:"+JSON.stringify(result.message));
+            throw new RpcException({message:result.message,status:parseInt(result.status)});
+        });;
     }
     populateAccountData(account,customer){
         var accountObj = account.transform();

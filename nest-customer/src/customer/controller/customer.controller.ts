@@ -1,15 +1,19 @@
 import { Controller, Get, Res, HttpStatus, Param, NotFoundException,
-     UseGuards, UsePipes, Put, Body, Logger, Inject } from '@nestjs/common';
+     UseGuards, UsePipes, Put, Body, Logger, Inject, UseFilters } from '@nestjs/common';
 import { CustomerService } from '../services/customer.service';
 import { Response } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt.gaurd';
 import { joiCustomerSchema } from '../schema/customerSchema';
 import {CustomerDto} from '../dto/customer.dto'
 import { ValidationPipe } from 'src/shared/validation.pipe';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, RpcException } from '@nestjs/microservices';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { CustomerExceptionFilter } from 'src/shared/rpc-exception.filter';
+import { Http } from 'winston/lib/winston/transports';
 
-@Controller('api/v1/customer')
+//@Controller('api/v1/customer')
+@UseFilters(new CustomerExceptionFilter())
+@Controller()
 export class CustomerController {
 
     constructor(private customerService: CustomerService,
@@ -18,7 +22,7 @@ export class CustomerController {
     @MessagePattern({cmd:'getAllCustomer'})
     async getAllCustomer() :Promise<any>{
         const customers = await this.customerService.getAllCustomer();
-        return customers;
+        return this.getResponse(customers,HttpStatus.OK);
     }
 
     // Fetch a particular customer using ID
@@ -26,17 +30,21 @@ export class CustomerController {
     async getCustomer(customerId:string):Promise<any> {
         this.logger.debug("In CustomerController::getCustomer::"+customerId);
         const customer = await this.customerService.getCustomerById(customerId);
-        if (!customer) throw new NotFoundException('Customer does not exist!');
-        return customer;
+        if (!customer) throw new RpcException({message:'Customer does not exist!',status:HttpStatus.NOT_FOUND});
+        return this.getResponse(customer,HttpStatus.OK);
     }
 
     @MessagePattern({cmd:'updateCustomer'})
     async updateCustomer(customerDto : CustomerDto):Promise<any> {
         this.logger.debug("In CustomerController::getCustomer::"+JSON.stringify(customerDto));
         const customer = await this.customerService.updateExistingCustomer(customerDto);
-        if(!customer) throw new NotFoundException('Customer does not exist!');
+        if(!customer) throw new RpcException({message:'Customer does not exist!',status:HttpStatus.NOT_FOUND});
 
-        return customer;
+        return this.getResponse(customer,HttpStatus.OK);
+    }
+
+    getResponse(data ,statusCode){
+        return {data:data,status:statusCode}
     }
 
     // @Get()

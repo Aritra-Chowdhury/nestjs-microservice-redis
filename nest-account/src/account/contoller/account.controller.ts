@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Res, Put, Get, Req, Param, Delete, UseGuards, UsePipes, Inject, Logger } from '@nestjs/common';
+import { Controller, Post, Body, Res, Put, Get, Req, Param, Delete, UseGuards, UsePipes, Inject, Logger, UseFilters, HttpStatus } from '@nestjs/common';
 import { AccountService } from '../services/account.service';
 import { AccountDto } from '../dto/account.dto';
 import { Response, Request } from 'express';
@@ -7,7 +7,9 @@ import { ValidationPipe } from 'src/shared/valiation.pipe';
 import { joiAccountSchema, joiAccountUpdateSchema } from '../schema/account.schema';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { MessagePattern } from '@nestjs/microservices';
+import { AccountExceptionFilter } from 'src/shared/rpc.exception.filter';
 
+@UseFilters(new AccountExceptionFilter())
 @Controller('api/v1/account')
 export class AccountController {
     constructor(private accountService :AccountService,
@@ -18,36 +20,40 @@ export class AccountController {
         async createAccount(accountDto: AccountDto):Promise<any>{
             this.logger.debug("In Account controller::createAccount::"+accountDto);
             const account = await this.accountService.createAccount(accountDto);
-            return account;
+            return this.getResponse(account,HttpStatus.CREATED);
         }
 
         @MessagePattern({cmd:'updateAccount'})
         async updateAccount(accountDto: AccountDto):Promise<any>{
             this.logger.debug("In Account controller::updateAccount::"+accountDto);
             const account = await this.accountService.updateAccount(accountDto);
-            return account;
+            return this.getResponse(account,HttpStatus.OK);
         }
     
         @MessagePattern({cmd:'getAllAccount'})
         async getAllAccount(accountDto: AccountDto):Promise<any>{
             this.logger.debug("In Account controller::getAllAccount::"+accountDto);
             const accounts = await this.accountService.getAllAccountByCustomerId(accountDto.customerId,accountDto.customer);
-            return accounts;
+            return this.getResponse(accounts,HttpStatus.OK);
         }
 
         @MessagePattern({cmd:'getAccountById'})
         async getAccountById(accountDto: AccountDto):Promise<any>{
             this.logger.debug("In Account controller::getAccountById::"+accountDto.account_number);
             const account = await this.accountService.getAccountById(accountDto.account_number,accountDto.customer);
-            return account;
+            return this.getResponse(account,HttpStatus.OK);
         }
 
         @MessagePattern({cmd:'deleteAccountById'})
         async deleteAccountById(accountDto: AccountDto):Promise<any>{
             this.logger.debug("In Account controller::deleteAccountById::"+accountDto);
             const account = await this.accountService.deleteAccountById(accountDto.account_number,accountDto.customer);
-            return account;
+            return this.getResponse(account,HttpStatus.OK);
         }
+
+        getResponse(data ,statusCode){
+            return {data:data,status:statusCode}
+          }
 
 
     // @UseGuards(JwtAuthGaurd)

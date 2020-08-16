@@ -21,7 +21,8 @@ import { GatewayCustomerModule } from 'src/gateway-customer/gateway-customer.mod
                 transport: Transport.REDIS,
                 options: {
                     url: 'redis://localhost:6379',
-                    connect_timeout :5000
+                    connect_timeout :5000,
+                    
                 },
 
                 // transport: Transport.TCP,

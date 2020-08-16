@@ -37,7 +37,7 @@ import { CustomerService } from '../service/customer.service';
             if(decodeCode.customerId){
               this.logger.debug("In JwtAuthGaurd:"+decodeCode.customerId);
               const customer = await this.customerService.getCustomerById(decodeCode.customerId);
-
+              this.logger.debug("In JwtAuthGaurd:"+customer);
               if(!customer) throw new UnauthorizedException(HttpStatus.UNAUTHORIZED,'Invalid auth key.Customer not found');
 
               request.body.customerId = customer.customerId;
@@ -49,7 +49,7 @@ import { CustomerService } from '../service/customer.service';
             
         }
         catch(err){
-            console.error('Invalid Auth key',err);
+            this.logger.error('Invalid Auth key',err);
             throw new UnauthorizedException(HttpStatus.UNAUTHORIZED,'Invalid auth Token'); 
         }
       }
