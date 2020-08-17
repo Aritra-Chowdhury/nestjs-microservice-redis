@@ -7,7 +7,7 @@ import {joiRegisterSchema , joiLoginSchema} from '../schema/customer.registraion
 import { ValidationPipe } from 'src/shared/validation.pipe';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { MessagePattern, EventPattern, RpcException } from '@nestjs/microservices';
-import { CustomerExceptionFilter } from 'src/shared/rpc-exception.filter';
+import { CustomerExceptionFilter } from '../../shared/rpc-exception.filter';
 
 //@Controller('api/v1/customer')
 @UseFilters(new CustomerExceptionFilter())

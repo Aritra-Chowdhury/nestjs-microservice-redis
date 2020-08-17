@@ -8,7 +8,7 @@ import {CustomerDto} from '../dto/customer.dto'
 import { ValidationPipe } from 'src/shared/validation.pipe';
 import { MessagePattern, RpcException } from '@nestjs/microservices';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-import { CustomerExceptionFilter } from 'src/shared/rpc-exception.filter';
+import { CustomerExceptionFilter } from '../../shared/rpc-exception.filter';
 import { Http } from 'winston/lib/winston/transports';
 
 //@Controller('api/v1/customer')
