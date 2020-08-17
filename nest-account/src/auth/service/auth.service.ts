@@ -1,7 +1,7 @@
 import { Injectable, Inject, Logger, BadRequestException } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
-import { SharedService } from 'src/shared/services/shared.service';
+import { SharedService } from '../../shared/services/shared.service';
 import { resolve } from 'dns';
 import { rejects } from 'assert';
 
@@ -10,6 +10,7 @@ export class AuthService {
 
     constructor(private sharedService: SharedService,
         @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger){}
+
 
      async validateCustomer(customerId:string, token:string):Promise<any>{
         return new Promise((resolve, reject)=>{

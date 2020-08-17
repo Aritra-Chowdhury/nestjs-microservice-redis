@@ -5,17 +5,17 @@ import * as _ from 'lodash';
 
 import { Account } from '../schema/account.schema';
 import { AccountDto } from '../dto/account.dto';
-import { SharedService } from 'src/shared/services/shared.service';
+
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class AccountService {
     constructor(@InjectModel('Account') private readonly accountModel : Model<Account>,
-    private sharedService:SharedService,
     @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
     @Inject("Customer_service") private readonly clientCustomer: ClientProxy){}
     
+
     async onApplicationBootstrap() {
         await this.clientCustomer.connect();
     } 
@@ -41,17 +41,17 @@ export class AccountService {
     }
 
     async getAllAccountByCustomerId(customerId:any,customer:any):Promise<any>{
-        const accounts = await this.accountModel.find({customerId})
-                                                .sort('opening_date');
-        if(!accounts && accounts.length ==0) 
+        const accounts = await this.accountModel.find({customerId});
+        if(accounts && accounts.length == 0) 
         throw new RpcException({message:'No account found or the customer id!',status:HttpStatus.NOT_FOUND});
 
         var accountsList = [];
-        accounts.forEach((account)=>{
-            accountsList.push(this.populateAccountData(account,customer))
-        });
-                                                
+            accounts.forEach((account)=>{
+                accountsList.push(this.populateAccountData(account,customer))
+            });
+                                                    
         return accountsList;
+            
     }
 
     async getAccountById(accountId:any,customer:any):Promise<any>{

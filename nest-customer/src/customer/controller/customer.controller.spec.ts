@@ -67,7 +67,8 @@ describe('Customer Controller', () => {
     customerRes.mailingaddress = mailingaddress;
   
     const module: TestingModule = await Test.createTestingModule({
-      imports: [SharedModule, WinstonModule.forRoot({
+      imports: [SharedModule, 
+        WinstonModule.forRoot({
         format: winston.format.combine(
           winston.format.colorize(),
           winston.format.prettyPrint()),

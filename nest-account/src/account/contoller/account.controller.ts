@@ -7,14 +7,13 @@ import { ValidationPipe } from 'src/shared/valiation.pipe';
 import { joiAccountSchema, joiAccountUpdateSchema } from '../schema/account.schema';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { MessagePattern } from '@nestjs/microservices';
-import { AccountExceptionFilter } from 'src/shared/rpc.exception.filter';
+import { AccountExceptionFilter } from '../../shared/rpc.exception.filter';
 
 @UseFilters(new AccountExceptionFilter())
 @Controller('api/v1/account')
 export class AccountController {
     constructor(private accountService :AccountService,
         @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger){}
-
 
         @MessagePattern({cmd:'createAccount'})
         async createAccount(accountDto: AccountDto):Promise<any>{
