@@ -14,9 +14,9 @@ export class CustomerService {
         @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
         @Inject("Customer_service") private readonly clientCustomer: ClientProxy){}
 
-    async onApplicationBootstrap() {
-        await this.clientCustomer.connect();
-    } 
+    // async onApplicationBootstrap() {
+    //     await this.clientCustomer.connect();
+    // } 
     async getToken(customer: any) {
         const payload = {customerId : customer.customerId, name : customer.name};
         return {

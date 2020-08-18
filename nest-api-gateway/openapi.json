@@ -1,0 +1,846 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Banking API",
+    "description": "A banking-management-application ,used for creating and maintain customer account. It also allows the customer to apply for a loan.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "chowdhuryaritra96@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "customer",
+      "description": "Everything about the customer"
+    },
+    {
+      "name": "account",
+      "description": "Account related opertaions for the customer account"
+    }
+  ],
+  "paths": {
+    "/customer/register": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Register a new customer",
+        "description": "Allows user to register into the application.",
+        "operationId": "register",
+        "requestBody": {
+          "description": "Customer object that needs to be registered.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerBasic"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User registered successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerBasic"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/customer/login": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Customers can login into the application",
+        "description": "Allows user to login into the appliation with either customerId or email and password",
+        "operationId": "login",
+        "requestBody": {
+          "description": "Customer object that needs to be registered.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerBasic"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User registered successful.",
+            "headers": {
+              "x-auth-token": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerBasic"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/customer": {
+      "put": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Update an existing customer",
+        "operationId": "updateCustomer",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Customer details object that needs to be updated",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Customer"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Customer details update successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerReponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Customer not found",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/customer/{customerId}": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Find customer by customerID",
+        "description": "Returns a single customer",
+        "operationId": "getCustomerById",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "CustomerID of customer to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerReponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid CustomerID supplied",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Customer not found",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/customer/logout": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Logs out current logged in user session",
+        "operationId": "logoutCustomer",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Customer not found.",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/account": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Find all account for a customer",
+        "description": "Returns an array of Account details",
+        "operationId": "getAccountByCustomerId",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Account"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid AccountID supplied",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Update an existing account",
+        "operationId": "updateAccount",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Account details object that needs to be updated",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Account"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Account details update successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "account not found",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Creates an bank account for the customer",
+        "description": "Allows user to create a new bank account.",
+        "operationId": "createAccount",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Account object that needs to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Account"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Account created successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/account/{accountId}": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Find account by accountID",
+        "description": "Returns a single Account details",
+        "operationId": "getAccountById",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "AccountID of account to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid AccountID supplied",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Account not found",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Remove/deactivate an account",
+        "description": "Remove/deactivate an account",
+        "operationId": "removeAccountById",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "AccountID of the account to remove",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account succesfully removed/deactivated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid AccountID supplied",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Account not found",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CustomerBasic": {
+        "required": [
+          "email",
+          "name",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "description": "CustomerId for customer."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the customer."
+          },
+          "email": {
+            "type": "string",
+            "description": "Email Id of the customer."
+          },
+          "password": {
+            "type": "string",
+            "description": "Credential to login in the appliation."
+          }
+        },
+        "xml": {
+          "name": "CustomerBasic"
+        }
+      },
+      "Customer": {
+        "required": [
+          "customerId"
+        ],
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "description": "CustomerId for customer."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the customer."
+          },
+          "email": {
+            "type": "string",
+            "description": "Email Id of the customer."
+          },
+          "password": {
+            "type": "string",
+            "description": "Credential to login in the appliation."
+          },
+          "user_details": {
+            "type": "object",
+            "description": "Personal details of the customer.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserDetails"
+              }
+            ]
+          },
+          "mailingaddress": {
+            "type": "object",
+            "description": "Mailing address of the customer.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MailingAddress"
+              }
+            ]
+          }
+        },
+        "xml": {
+          "name": "Customer"
+        }
+      },
+      "CustomerReponse": {
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "description": "CustomerId for customer."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the customer."
+          },
+          "email": {
+            "type": "string",
+            "description": "Email Id of the customer."
+          },
+          "user_details": {
+            "type": "object",
+            "description": "Personal details of the customer.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserDetails"
+              }
+            ]
+          },
+          "mailingaddress": {
+            "type": "object",
+            "description": "Mailing address of the customer.",
+            "allOf": [
+              {
+                "$ref": "/MailingAddress"
+              }
+            ]
+          }
+        },
+        "xml": {
+          "name": "CustomerReponse"
+        }
+      },
+      "UserDetails": {
+        "required": [
+          "dob",
+          "martial_status",
+          "nationality",
+          "pan_card",
+          "phone_number"
+        ],
+        "type": "object",
+        "properties": {
+          "dob": {
+            "type": "string",
+            "description": "Date of the birth of the customer.",
+            "format": "date-time"
+          },
+          "martial_status": {
+            "type": "string",
+            "description": "Martial status of the customer.",
+            "enum": [
+              "unmarried",
+              "married",
+              "separated"
+            ]
+          },
+          "pan_card": {
+            "type": "string",
+            "description": "Pan Card number of the customer."
+          },
+          "nationality": {
+            "type": "string",
+            "description": "Nationality of the customer."
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "Phone number of the customer."
+          }
+        },
+        "xml": {
+          "name": "UserDetails"
+        }
+      },
+      "MailingAddress": {
+        "required": [
+          "address1",
+          "city",
+          "country",
+          "state",
+          "zip-code"
+        ],
+        "type": "object",
+        "properties": {
+          "address1": {
+            "type": "string",
+            "description": "Mailing address1 of the customer."
+          },
+          "address2": {
+            "type": "string",
+            "description": "Mailing address2 of the customer."
+          },
+          "city": {
+            "type": "string",
+            "description": "Mailing city of the customer."
+          },
+          "state": {
+            "type": "string",
+            "description": "Mailing state of the customer."
+          },
+          "country": {
+            "type": "string",
+            "description": "Mailing country of the customer."
+          },
+          "zip-code": {
+            "type": "string",
+            "description": "Mailing zip-code of the customer."
+          }
+        },
+        "xml": {
+          "name": "MailingAddress"
+        }
+      },
+      "Account": {
+        "required": [
+          "account_type",
+          "customer_id",
+          "mailingaddress",
+          "user_details"
+        ],
+        "type": "object",
+        "properties": {
+          "account_number": {
+            "type": "string",
+            "description": "Account_number for the customer account."
+          },
+          "account_type": {
+            "type": "string",
+            "description": "Account_type for the customer account.",
+            "enum": [
+              "Current",
+              "Saving",
+              "Credit"
+            ]
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Customer_id of the customer."
+          },
+          "user_details": {
+            "type": "object",
+            "description": "Personal details of the customer.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserDetails"
+              }
+            ]
+          },
+          "mailingaddress": {
+            "type": "object",
+            "description": "Mailing address of the customer.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MailingAddress"
+              }
+            ]
+          },
+          "opening_date": {
+            "type": "string",
+            "description": "Account opening date.",
+            "format": "date-time"
+          },
+          "closing_date": {
+            "type": "string",
+            "description": "Account closing date.",
+            "format": "date-time"
+          }
+        },
+        "xml": {
+          "name": "Account"
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "name": "x-auth-token",
+        "in": "header"
+      }
+    }
+  }
+}

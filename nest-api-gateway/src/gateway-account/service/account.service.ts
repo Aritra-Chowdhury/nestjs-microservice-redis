@@ -10,9 +10,9 @@ export class AccountService {
         @Inject("Account_service") private readonly clientAccount: ClientProxy){}
     
 
-    async onApplicationBootstrap() {
-        await this.clientAccount.connect();
-    } 
+    // async onApplicationBootstrap() {
+    //     await this.clientAccount.connect();
+    // } 
     async createAccount(accountDto : AccountDto):Promise<any>{  
         this.logger.debug("In AccountService::Client::createAccount"+JSON.stringify(accountDto));
         return this.makeServiceCall('createAccount', accountDto);   
