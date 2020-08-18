@@ -80,7 +80,7 @@ describe('AccountService', () => {
       imports: [
         WinstonModule.forRoot({
         handleExceptions : true,
-        level : 'debug',
+        level : 'error',
         transports: [
           new winston.transports.Console(),
         ]
@@ -119,7 +119,7 @@ describe('AccountService', () => {
       imports: [
         WinstonModule.forRoot({
         handleExceptions : true,
-        level : 'debug',
+        level : 'error',
         transports: [
           new winston.transports.Console(),
         ]

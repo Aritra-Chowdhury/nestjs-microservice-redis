@@ -17,7 +17,7 @@ describe('SharedService', () => {
       }),
       WinstonModule.forRoot({
         handleExceptions : true,
-        level : 'debug',
+        level : 'error',
         transports: [
           new winston.transports.Console(),
         ]

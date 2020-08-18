@@ -47,7 +47,7 @@ describe('Auth Controller', () => {
           winston.format.colorize(),
           winston.format.prettyPrint()),
         handleExceptions : true,
-        level : 'debug',
+        level : 'error',
         transports: [
           new winston.transports.File({
               filename : './log/customer-service.log'

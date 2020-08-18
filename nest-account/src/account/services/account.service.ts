@@ -102,7 +102,7 @@ export class AccountService {
             },
             (error) => {
                 this.logger.error(error);
-                reject("Error while calling customer service");
+                reject({message:"Error while calling customer service",status:HttpStatus.INTERNAL_SERVER_ERROR});
             }
         );
     }).catch(result=>{

@@ -13,7 +13,7 @@ describe('AuthService', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [WinstonModule.forRoot({
         handleExceptions : true,
-        level : 'debug',
+        level : 'error',
         transports: [
           new winston.transports.Console(),
         ]

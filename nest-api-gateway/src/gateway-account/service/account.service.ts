@@ -1,4 +1,4 @@
-import { Injectable, Inject, Logger, BadRequestException, HttpException } from '@nestjs/common';
+import { Injectable, Inject, Logger, BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AccountDto } from '../dto/account.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -6,15 +6,14 @@ import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class AccountService {
-    constructor (private jwtService: JwtService,
-        @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
+    constructor (@Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
         @Inject("Account_service") private readonly clientAccount: ClientProxy){}
     
 
     async onApplicationBootstrap() {
         await this.clientAccount.connect();
     } 
-    async createAccount(accountDto : AccountDto , token:string):Promise<any>{  
+    async createAccount(accountDto : AccountDto):Promise<any>{  
         this.logger.debug("In AccountService::Client::createAccount"+JSON.stringify(accountDto));
         return this.makeServiceCall('createAccount', accountDto);   
     }
@@ -61,7 +60,7 @@ export class AccountService {
                 },
                 (error) => {
                     this.logger.error(error);
-                    reject("Error while calling account service");
+                    reject({message:"Error while calling account service",status:HttpStatus.INTERNAL_SERVER_ERROR});
                 }
             );
         }).catch(result=>{

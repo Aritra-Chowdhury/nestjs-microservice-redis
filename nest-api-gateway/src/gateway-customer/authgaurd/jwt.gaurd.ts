@@ -29,7 +29,7 @@ import { CustomerService } from '../service/customer.service';
       return this.validateRequestHeader(request);
     }
 
-    async validateRequestHeader(request:Request) : Promise<boolean>{
+    async validateRequestHeader(request) : Promise<boolean>{
       if(!request.header('x-auth-token')) throw new UnauthorizedException(HttpStatus.UNAUTHORIZED,'Auth key not present');
       else{
         try{
@@ -50,10 +50,10 @@ import { CustomerService } from '../service/customer.service';
         }
         catch(err){
             this.logger.error('Invalid Auth key',err);
-            throw new UnauthorizedException(HttpStatus.UNAUTHORIZED,'Invalid auth Token'); 
+            if(err.response)throw new UnauthorizedException(HttpStatus.UNAUTHORIZED,err.response.error); 
+            throw new UnauthorizedException(HttpStatus.UNAUTHORIZED,err.message); 
         }
       }
-      return false;
     }
   
     // handleRequest(err, user, info) :any{

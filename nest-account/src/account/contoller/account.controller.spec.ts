@@ -75,7 +75,7 @@ describe('Account Controller', () => {
         }),
         WinstonModule.forRoot({
         handleExceptions : true,
-        level : 'debug',
+        level : 'error',
         transports: [
           new winston.transports.Console(),
         ]
@@ -117,7 +117,7 @@ describe('Account Controller', () => {
         }),
         WinstonModule.forRoot({
         handleExceptions : true,
-        level : 'debug',
+        level : 'error',
         transports: [
           new winston.transports.Console(),
         ]

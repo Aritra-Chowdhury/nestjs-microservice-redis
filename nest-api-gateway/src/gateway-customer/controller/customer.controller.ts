@@ -8,9 +8,7 @@ import { CustomerRegisterDto } from '../dto/customer.register.dto';
 import { JwtAuthGuard } from '../authgaurd/jwt.gaurd';
 import { joiCustomerSchema } from '../schema/customerSchema';
 import { CustomerDto } from '../dto/customer.dto';
-import { ValidationPipe } from 'src/shared/validation.pipe';
-
-
+import { ValidationPipe } from '../../shared/validation.pipe';
 
 @Controller('api/v1/customer')
 export class CustomerController {

@@ -2,9 +2,9 @@ import { Controller, Logger, Inject, UsePipes, Post, Res, Body, NotFoundExceptio
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { Response, Request } from 'express';
 
-import { ValidationPipe } from 'src/shared/validation.pipe';
+import { ValidationPipe } from '../../shared/validation.pipe';
 import { AccountService } from '../service/account.service';
-import { JwtAuthGuard } from 'src/gateway-customer/authgaurd/jwt.gaurd';
+import { JwtAuthGuard } from '../../gateway-customer/authgaurd/jwt.gaurd';
 import { joiAccountSchema, joiAccountUpdateSchema } from '../schema/account.schema';
 import { AccountDto } from '../dto/account.dto';
 
@@ -16,9 +16,9 @@ export class AccountController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe([joiAccountSchema]))
     @Post()
-    async createAccount(@Req() req: Request, @Res() res: Response, @Body() accountDto: AccountDto):Promise<any>{
+    async createAccount( @Res() res: Response, @Body() accountDto: AccountDto):Promise<any>{
         this.logger.debug("In Account controller::client::getAccountById::"+accountDto);
-        const account = await this.accountService.createAccount(accountDto,req.header('x-auth-token'));
+        const account = await this.accountService.createAccount(accountDto);
         return res.status(201).send(account);
     }
 

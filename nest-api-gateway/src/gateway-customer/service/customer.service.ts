@@ -7,8 +7,6 @@ import { CustomerRegisterDto } from '../dto/customer.register.dto';
 import { CustomerDto } from '../dto/customer.dto';
 import { ClientProxy } from '@nestjs/microservices';
 
-
-
 @Injectable()
 export class CustomerService {
 
@@ -63,7 +61,7 @@ export class CustomerService {
                 },
                 (error) => {
                     this.logger.error(error);
-                    reject("Error while calling customer service");
+                    reject({message:"Error while calling customer service",status:HttpStatus.INTERNAL_SERVER_ERROR});
                 }
             );
         }).catch(result=>{
