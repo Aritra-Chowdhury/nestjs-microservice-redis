@@ -28,6 +28,29 @@ describe('Auth Controller', () => {
     };
   }
 
+  const execModule = async ()=>{
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [SharedModule, WinstonModule.forRoot({
+        format: winston.format.combine(
+          winston.format.colorize(),
+          winston.format.prettyPrint()),
+        handleExceptions : true,
+        level : 'error',
+        transports: [
+          new winston.transports.File({
+              filename : './log/customer-service.log'
+          }),
+          new winston.transports.Console(),
+        ]
+      })],
+      controllers: [AuthController],
+      providers: [CustomerExceptionFilter,
+        {provide: AuthService,useValue: new mockAuthService(customerRes)}]
+    }).compile();
+
+    controller = module.get<AuthController>(AuthController);
+  }
+
   beforeEach(async () => {
     customerDto = new CustomerRegisterDto();
     customerRes = new CustomerRegisterDto();
@@ -80,8 +103,9 @@ describe('Auth Controller', () => {
     });
 
     it('should throw Customer does not exist!', async() => {
-      customerRes = '';
+      customerRes = null;
       try{
+        await execModule();
         const result = await exec(customerDto);
       }catch(error){
         expect(error.message).toBe('Customer does not exist!');

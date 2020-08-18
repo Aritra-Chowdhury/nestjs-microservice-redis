@@ -9,6 +9,7 @@ import { JwtAuthGuard } from '../../gateway-customer/authgaurd/jwt.gaurd';
 import { ValidationPipe } from '../../shared/validation.pipe';
 import { SharedModule } from '../../shared/shared.module';
 import { CustomerService } from '../../gateway-customer/service/customer.service';
+import { Response } from 'express';
 
 describe('Account Controller', () => {
   let controller: AccountController;
@@ -43,6 +44,22 @@ describe('Account Controller', () => {
   }
   function mockAccountService(dto:any){
     this.data = dto;
+
+    this.createAccount = ()=>{
+      return this.data;
+    }
+    this.updateAccount = ()=>{
+      return this.data;
+    }
+    this.getAllAccountByCustomerId = ()=>{
+      return [this.data];
+    }
+    this.getAccountById = ()=>{
+      return this.data;
+    }
+    this.deleteAccountById = ()=>{
+      return this.data;
+    }
   }
 
   function mockCustomerService(){
@@ -93,7 +110,100 @@ describe('Account Controller', () => {
     }).compile();
 
     controller = module.get<AccountController>(AccountController);
+
   });
+
+  describe('createAccount',()=>{
+    it('should be able to create an account',async ()=>{
+        const mockResponse= {
+          status : jest.fn().mockReturnThis(),
+          send : jest.fn().mockReturnValue(accountRes)
+        }
+      const result = await controller.createAccount(mockResponse,accountDto);
+      expect(result.status).toBe(200);
+      expect(result.data.account_number).toBe('987654321');
+    });
+  });
+
+  describe('updateAccount',()=>{
+    it('should be able to upadte an account',async ()=>{
+
+      accountRes.data.account_type = "savings";
+        const mockResponse= {
+          status : jest.fn().mockReturnThis(),
+          send : jest.fn().mockReturnValue(accountRes)
+        }
+      const result = await controller.updateAccount(mockResponse,accountDto);
+      expect(result.status).toBe(200);
+      expect(result.data.account_number).toBe('987654321');
+      expect(result.data.account_type).toBe('savings');
+    });
+  });
+
+  describe('getAllAccount',()=>{
+    it('should be able to get all account',async ()=>{
+      accountRes.data = [accountRes.data];
+        const mockResponse= {
+          status : jest.fn().mockReturnThis(),
+          send : jest.fn().mockReturnValue(accountRes)
+        }
+
+        const mockRequest= {
+          body : jest.fn().mockReturnValue({
+            customerId : customerRes.customerId, 
+            customer : customerRes,
+          })
+        }
+
+      const result = await controller.getAllAccount(mockRequest,mockResponse);
+      expect(result.status).toBe(200);
+      expect(result.data[0].account_number).toBe('987654321');
+    });
+  });
+
+  describe('getAccountById',()=>{
+    it('should be able to get an account',async ()=>{
+        const mockResponse= {
+          status : jest.fn().mockReturnThis(),
+          send : jest.fn().mockReturnValue(accountRes)
+        }
+
+        const mockRequest= {
+          body : jest.fn().mockReturnValue({
+            customerId : customerRes.customerId, 
+            customer : customerRes,
+          })
+        }
+
+      const result = await controller.getAccountById(mockRequest,mockResponse,accountDto.account_number);
+      expect(result.status).toBe(200);
+      expect(result.data.account_number).toBe('987654321');
+    });
+  });
+
+
+  describe('deleteAccountById',()=>{
+    it('should be able to deactivate an account',async ()=>{
+      accountRes.data.closing_date = Date.now().toString();
+        const mockResponse= {
+          status : jest.fn().mockReturnThis(),
+          send : jest.fn().mockReturnValue(accountRes)
+        }
+
+        const mockRequest= {
+          body : jest.fn().mockReturnValue({
+            customerId : customerRes.customerId, 
+            customer : customerRes,
+          })
+        }
+
+      const result = await controller.deleteAccountById(mockRequest,mockResponse,accountDto.account_number);
+      expect(result.status).toBe(200);
+      expect(result.data.account_number).toBe('987654321');
+      expect(result.data.closing_date).toBeDefined();
+    });
+  });
+
 
   it('should be defined', () => {
     expect(controller).toBeDefined();

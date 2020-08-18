@@ -16,7 +16,7 @@ export class AccountController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe([joiAccountSchema]))
     @Post()
-    async createAccount( @Res() res: Response, @Body() accountDto: AccountDto):Promise<any>{
+    async createAccount( @Res() res: any, @Body() accountDto: AccountDto):Promise<any>{
         this.logger.debug("In Account controller::client::getAccountById::"+accountDto);
         const account = await this.accountService.createAccount(accountDto);
         return res.status(201).send(account);
@@ -25,21 +25,21 @@ export class AccountController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe([joiAccountUpdateSchema]))
     @Put()
-    async updateAccount(@Res() res: Response, @Body() accountDto: AccountDto):Promise<any>{
+    async updateAccount(@Res() res: any, @Body() accountDto: AccountDto):Promise<any>{
         const account = await this.accountService.updateAccount(accountDto);
         return res.status(200).send(account);
     }
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async getAllAccount(@Req() req: Request, @Res() res: Response):Promise<any>{
+    async getAllAccount(@Req() req: any, @Res() res: any):Promise<any>{
         const accounts = await this.accountService.getAllAccountByCustomerId(req.body.customerId,req.body.customer);
         return res.status(200).send(accounts);
     }
 
     @UseGuards(JwtAuthGuard)
     @Get('/:accountId')
-    async getAccountById(@Req() req: Request, @Res() res: Response, @Param('accountId') accountId: String):Promise<any>{
+    async getAccountById(@Req() req: any, @Res() res: any, @Param('accountId') accountId: String):Promise<any>{
         this.logger.debug("In Account controller::getAccountById::"+accountId);
         const account = await this.accountService.getAccountById(accountId,req.body.customer);
         return res.status(200).send(account);
@@ -47,7 +47,7 @@ export class AccountController {
 
     @UseGuards(JwtAuthGuard)
     @Delete('/:accountId')
-    async deleteAccountById(@Req() req: Request, @Res() res: Response, @Param('accountId') accountId: String):Promise<any>{
+    async deleteAccountById(@Req() req: any, @Res() res: any, @Param('accountId') accountId: String):Promise<any>{
         const account = await this.accountService.deleteAccountById(accountId,req.body.customer);
         return res.status(200).send(account);
     }

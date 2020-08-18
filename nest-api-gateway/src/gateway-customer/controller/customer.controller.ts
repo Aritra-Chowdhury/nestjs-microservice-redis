@@ -14,11 +14,11 @@ import { ValidationPipe } from '../../shared/validation.pipe';
 export class CustomerController {
 
     constructor(private customerService : CustomerService,
-        @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger){}
+      @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger){}
   
       @UsePipes(new ValidationPipe([joiLoginSchema]))
       @Post('login')
-      async login(@Res() res : Response, @Body() customerRegisterDto: CustomerRegisterDto):Promise<any> {
+      async login(@Res() res : any, @Body() customerRegisterDto: CustomerRegisterDto):Promise<any> {
         this.logger.debug("In AuthController::Client::login");
         const customer = await this.customerService.login(customerRegisterDto);
         if(!customer) throw new NotFoundException('Customer does not exist!');
@@ -28,7 +28,7 @@ export class CustomerController {
   
       @UsePipes(new ValidationPipe([joiRegisterSchema]))
       @Post('register')
-      async register(@Res() res : Response, @Body() customerRegisterDto: CustomerRegisterDto):Promise<any> {
+      async register(@Res() res : any, @Body() customerRegisterDto: CustomerRegisterDto):Promise<any> {
         this.logger.debug("In AuthController::register");
         const customer = await this.customerService.register(customerRegisterDto);
         return res.status(HttpStatus.CREATED).send(customer)
@@ -36,7 +36,7 @@ export class CustomerController {
 
     @Get()
     @UseGuards(JwtAuthGuard)
-    async getAllCustomer(@Res() res:Response) :Promise<any>{
+    async getAllCustomer(@Res() res:any) :Promise<any>{
         const customers = await this.customerService.getAllCustomer();
         return res.status(HttpStatus.OK).send(customers);
     }
@@ -44,7 +44,7 @@ export class CustomerController {
     // Fetch a particular customer using ID
     @Get('/:customerId')
     @UseGuards(JwtAuthGuard)
-    async getCustomer(@Res() res:Response, @Param('customerId') customerId:string):Promise<any> {
+    async getCustomer(@Res() res:any, @Param('customerId') customerId:string):Promise<any> {
         const customer = await this.customerService.getCustomerById(customerId);
         if (!customer) throw new NotFoundException('Customer does not exist!');
         return res.status(HttpStatus.OK).send(customer);
@@ -53,7 +53,7 @@ export class CustomerController {
     @UsePipes(new ValidationPipe([joiCustomerSchema]))
     @Put()
     @UseGuards(JwtAuthGuard)
-    async updateCustomer(@Res() res:Response, @Body()customerDto : CustomerDto):Promise<any> {
+    async updateCustomer(@Res() res:any, @Body()customerDto : CustomerDto):Promise<any> {
         const customer = await this.customerService.updateExistingCustomer(customerDto);
         if(!customer) throw new NotFoundException('Customer does not exist!');
 

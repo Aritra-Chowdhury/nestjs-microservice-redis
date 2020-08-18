@@ -86,6 +86,15 @@ describe('Customer Controller', () => {
       expect(result).toBeTruthy();
     });
 
+    it('should throw Auth key not present',async ()=>{
+      try{
+        const result = await exec(null);
+      }catch(error){
+        expect(error.response.error).toBe('Auth key not present');
+        expect(error.status).toBe(401);
+      }
+    });
+
     it('should throw Invalid auth key.Customer Id missing',async ()=>{
       try{
         const payload = {};

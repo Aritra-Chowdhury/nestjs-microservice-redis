@@ -20,7 +20,7 @@ export class CustomerService {
     async getToken(customer: any) {
         const payload = {customerId : customer.customerId, name : customer.name};
         return {
-            'x-auth-token' : this.jwtService.sign(payload),
+            'x-auth-token' : this.jwtService.sign(payload)
         };
     }
     async login(customer: CustomerRegisterDto) :Promise<any>{
