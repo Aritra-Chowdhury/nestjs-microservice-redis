@@ -12,7 +12,7 @@ import { GatewayCustomerModule } from 'src/gateway-customer/gateway-customer.mod
         SharedModule , 
         GatewayCustomerModule,
         JwtModule.register({
-            secret:"privatekey",
+            secret: 'privatekey',
             signOptions: { expiresIn: '10000s' },
           }),
           ClientsModule.register([

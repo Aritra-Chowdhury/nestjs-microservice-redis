@@ -11,7 +11,7 @@ import { JwtAuthGuard } from './authgaurd/jwt.gaurd';
     imports:[
         SharedModule,
         JwtModule.register({
-            secret:"privatekey",
+            secret: 'privatekey',
             signOptions: { expiresIn: '10000s' },
           }),
         ClientsModule.register([

@@ -43,7 +43,7 @@ describe('Customer Controller', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         JwtModule.register({
-          secret:"privatekey",
+          secret: 'privatekey',
           signOptions: { expiresIn: '10000s' },
         }),
         WinstonModule.forRoot({

@@ -67,7 +67,7 @@ describe('Customer Controller', () => {
           ]
         }),
         JwtModule.register({
-          secret:"privatekey",
+          secret: 'privatekey',
           signOptions: { expiresIn: '10000s' },
         })
       ],
@@ -125,7 +125,7 @@ describe('Customer Controller', () => {
           ]
         }),
         JwtModule.register({
-          secret:"privatekey",
+          secret: 'privatekey',
           signOptions: { expiresIn: '10000s' },
         })
       ],
