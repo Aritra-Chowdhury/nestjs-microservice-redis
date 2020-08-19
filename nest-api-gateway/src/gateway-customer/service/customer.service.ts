@@ -6,6 +6,7 @@ import * as CircuitBreaker  from 'opossum';
 import { CustomerRegisterDto } from '../dto/customer.register.dto';
 import { CustomerDto } from '../dto/customer.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { error } from 'winston';
 
 @Injectable()
 export class CustomerService {
@@ -17,6 +18,13 @@ export class CustomerService {
     // async onApplicationBootstrap() {
     //     await this.clientCustomer.connect();
     // } 
+
+    options:any = {
+        timeout: 3000, // If our function takes longer than 3 seconds, trigger a failure
+        errorThresholdPercentage: 50, // When 50% of requests fail, trip the circuit
+        resetTimeout: 30000 // After 30 seconds, try again.
+    };
+
     async getToken(customer: any) {
         const payload = {customerId : customer.customerId, name : customer.name};
         return {
@@ -70,15 +78,31 @@ export class CustomerService {
         });
     }
 
-    // async breakerDesign(pattern:any , data:any){
-    //     const options = {
-    //         timeout: 3000, // If our function takes longer than 3 seconds, trigger a failure
-    //         errorThresholdPercentage: 50, // When 50% of requests fail, trip the circuit
-    //         resetTimeout: 30000 // After 30 seconds, try again.
-    //       };
-    //     const circuitBreaker = new CircuitBreaker(this.makeServiceCall,options);
-    //     return circuitBreaker.fire(pattern , data)
-    //                   .then((result=> {return result;}))
-    //                   .catch(console.log);
+    // async makeServiceCall(pattern:any , data:any){
+    //     const result = await this.breakerDesign({cmd: pattern},data);
+    //     if(result.status != 200 && result.status != 201){
+    //         this.logger.debug(" Response from account service with status:"+result.status+" message:"+JSON.stringify(result.message));
+    //         throw new HttpException(result.message,parseInt(result.status));
+    //     }
+    //     this.logger.debug("In CustomerService::makeServiceCall::"+JSON.stringify(result));
+    //     return result.data;
+
+    // }
+
+    // async makeCall(pattern:any , data:any , clientCustomer:ClientProxy):Promise<any>{
+    //     return new Promise((resolve, reject)=>{
+    //         clientCustomer.send<any,any>({cmd: pattern},data).subscribe(
+    //             (result) =>{
+    //                 resolve(result) ;
+    //             },
+    //             (error) => {
+    //                 reject({message:"Error while calling customer service",status:HttpStatus.INTERNAL_SERVER_ERROR});
+    //             });
+    //     });
+    // }
+    
+    // async breakerDesign(pattern:any , data:any):Promise<any>{
+    //     const circuitBreaker = new CircuitBreaker(this.makeCall,this.options);
+    //     return circuitBreaker.fire(pattern , data, this.clientCustomer);
     // }
 }
