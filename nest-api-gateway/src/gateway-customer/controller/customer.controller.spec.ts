@@ -40,19 +40,19 @@ describe('Customer Controller', () => {
 
   const userDetails =  {
     dob : '01/01/2000',
-    martial_status: 'married',
-    pan_card : 'demo1234',
+    martialStatus: 'married',
+    panCard : 'demo1234',
     nationality : 'Indian',
-    phone_number : '123456679',
+    phoneNumber : '123456679',
   };
 
-  const mailingaddress = {
+  const mailingAddress = {
     address1 : 'DemoAddress1',
     address2 : 'DemoAddress2',
     city : 'DemoCity',
     state : 'DemoState',
     country : 'DemoCountry',
-    zip_code : '722359',
+    zipCode : '722359',
   };
 
   const execModule = async ()=>{
@@ -100,7 +100,7 @@ describe('Customer Controller', () => {
     customerDto.password = 'abcd12324';
     customerDto.isActive = true;
     customerDto.userDetails = userDetails;
-    customerDto.mailingaddress = mailingaddress;
+    customerDto.mailingAddress = mailingAddress;
 
     customerRes= {
       status : HttpStatus.OK,
@@ -110,7 +110,7 @@ describe('Customer Controller', () => {
         email: "abc@mail.com",
         password : "abcd12324",
         userDetails: userDetails,
-        mailingaddress: mailingaddress,
+        mailingAddress: mailingAddress,
         isActive : true
       }
     }

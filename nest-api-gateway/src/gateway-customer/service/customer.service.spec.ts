@@ -15,19 +15,19 @@ describe('CustomerService', () => {
   let customerRes: any;
   const userDetails =  {
     dob : '01/01/2000',
-    martial_status: 'married',
-    pan_card : 'demo1234',
+    martialStatus: 'married',
+    panCard : 'demo1234',
     nationality : 'Indian',
-    phone_number : '123456679',
+    phoneNumber : '123456679',
   };
 
-  const mailingaddress = {
+  const mailingAddress = {
     address1 : 'DemoAddress1',
     address2 : 'DemoAddress2',
     city : 'DemoCity',
     state : 'DemoState',
     country : 'DemoCountry',
-    zip_code : '722359',
+    zipCode : '722359',
   };
   function MockClientProxy(res) {
     this.data = res;
@@ -102,7 +102,7 @@ describe('CustomerService', () => {
     customerDto.password = 'abcd12324';
     customerDto.isActive = true;
     customerDto.userDetails = userDetails;
-    customerDto.mailingaddress = mailingaddress;
+    customerDto.mailingAddress = mailingAddress;
 
     customerRes= {
       status : HttpStatus.OK,
@@ -112,7 +112,7 @@ describe('CustomerService', () => {
         email: "abc@mail.com",
         password : "abcd12324",
         userDetails: userDetails,
-        mailingaddress: mailingaddress,
+        mailingAddress: mailingAddress,
         isActive : true
       }
     }
@@ -170,13 +170,13 @@ describe('CustomerService', () => {
 
   describe('updateExistingCustomer',()=>{
     it('should be able to updateExistingCustomer',async ()=>{
-      customerDto.userDetails.martial_status = 'Unmarried';
-      customerRes.data.userDetails.martial_status = 'Unmarried';
+      customerDto.userDetails.martialStatus = 'Unmarried';
+      customerRes.data.userDetails.martialStatus = 'Unmarried';
       await execModule(customerRes);
       const result = await service.updateExistingCustomer(customerDto);
       expect(result.customerId).toBe('123456789');
       expect(result.email).toBe('abc@mail.com');
-      expect(result.userDetails.martial_status).toBe('Unmarried');
+      expect(result.userDetails.martialStatus).toBe('Unmarried');
     });
   });
 

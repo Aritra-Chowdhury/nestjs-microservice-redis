@@ -24,7 +24,7 @@ export class CustomerService {
         const newcustomerObj = await this.customerModel.findByIdAndUpdate(customerDto.customerId,
           {$set : {
             "userDetails": customerDto.userDetails,
-            "mailingaddress": customerDto.mailingaddress
+            "mailingAddress": customerDto.mailingAddress
           }},{new : true});
       
         return newcustomerObj.transform();

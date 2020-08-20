@@ -33,7 +33,7 @@ export class AccountService {
 
     async getAccountById(accountId:any,customer:any):Promise<any>{
         var accountDto : AccountDto = new AccountDto();;
-        accountDto.account_number = accountId;
+        accountDto.accountNumber = accountId;
         accountDto.customer = customer;
         this.logger.debug("In AccountService::Client::getAccountById"+JSON.stringify(accountDto));
         return this.makeServiceCall('getAccountById', accountDto);
@@ -41,7 +41,7 @@ export class AccountService {
 
     async deleteAccountById(accountId:any,customer:any):Promise<any>{
         var accountDto : AccountDto = new AccountDto();;
-        accountDto.account_number = accountId;
+        accountDto.accountNumber = accountId;
         accountDto.customer = customer;
         this.logger.debug("In AccountService::Client::deleteAccountById"+JSON.stringify(accountDto));
         return this.makeServiceCall('deleteAccountById', accountDto);

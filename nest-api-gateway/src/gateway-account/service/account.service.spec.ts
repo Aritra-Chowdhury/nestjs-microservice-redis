@@ -13,19 +13,19 @@ describe('AccountService', () => {
  
   const userDetails =  {
     dob : '01/01/2000',
-    martial_status: 'married',
-    pan_card : 'demo1234',
+    martialStatus: 'married',
+    panCard : 'demo1234',
     nationality : 'Indian',
-    phone_number : '123456679',
+    phoneNumber : '123456679',
   };
 
-  const mailingaddress = {
+  const mailingAddress = {
     address1 : 'DemoAddress1',
     address2 : 'DemoAddress2',
     city : 'DemoCity',
     state : 'DemoState',
     country : 'DemoCountry',
-    zip_code : '722359',
+    zipCode : '722359',
   };
 
   let customerRes:any = {
@@ -34,7 +34,7 @@ describe('AccountService', () => {
       email: "abc@mail.com",
       password : "demopassword",
       userDetails: userDetails,
-      mailingaddress: mailingaddress,
+      mailingAddress: mailingAddress,
       isActive : true
   }
   function MockClientProxy(res) {
@@ -89,11 +89,11 @@ describe('AccountService', () => {
   beforeEach(async () => {
     accountDto = new AccountDto();
 
-    accountDto.account_type='current';
-    accountDto.opening_date=Date.now().toString();
+    accountDto.accountType='current';
+    accountDto.openingDate=Date.now().toString();
     accountDto.customerId = "123456789";
     accountDto.userDetails = userDetails;
-    accountDto.mailingaddress = mailingaddress;
+    accountDto.mailingAddress = mailingAddress;
     accountDto.isJoint = false;
     accountDto.customer = customerRes;
 
@@ -101,12 +101,12 @@ describe('AccountService', () => {
       status : HttpStatus.OK,
       data : {
         customerId: '123456789',
-        account_number : '987654321',
-        account_type: 'current',
-        opening_date : Date.now().toString(),
+        accountNumber : '987654321',
+        accountType: 'current',
+        openingDate : Date.now().toString(),
         isJoint: false,
         userDetails,
-        mailingaddress
+        mailingAddress
       }  
     }
 
@@ -131,19 +131,19 @@ describe('AccountService', () => {
     it('should be able to createAccount',async ()=>{
       const result = await service.createAccount(accountDto);
       expect(result.customerId).toBe('123456789');
-      expect(result.account_number).toBe('987654321');
+      expect(result.accountNumber).toBe('987654321');
     });
   });
 
   describe('updateAccount',()=>{
     it('should be able to updateAccount',async ()=>{
-      accountDto.account_type = 'Savings'
-      accountRes.data.account_type = 'Savings'
+      accountDto.accountType = 'Savings'
+      accountRes.data.accountType = 'Savings'
       await execModule(accountRes);
       const result = await service.updateAccount(accountDto);
-      expect(result.account_type).toBe('Savings');
+      expect(result.accountType).toBe('Savings');
       expect(result.customerId).toBe('123456789');
-      expect(result.account_number).toBe('987654321');
+      expect(result.accountNumber).toBe('987654321');
     });
   });
 
@@ -151,28 +151,28 @@ describe('AccountService', () => {
     it('should be able to getAllAccountByCustomerId',async ()=>{
       const result = await service.getAllAccountByCustomerId(accountDto.customerId,customerRes);
       expect(result.customerId).toBe('123456789');
-      expect(result.account_number).toBe('987654321');
+      expect(result.accountNumber).toBe('987654321');
       expect(result).toHaveProperty(['userDetails']);
     });
   });
 
   describe('getAccountById',()=>{
     it('should be able to getAccountById',async ()=>{
-      const result = await service.getAccountById(accountDto.account_number,customerRes);
+      const result = await service.getAccountById(accountDto.accountNumber,customerRes);
       expect(result.customerId).toBe('123456789');
-      expect(result.account_number).toBe('987654321');
+      expect(result.accountNumber).toBe('987654321');
       expect(result).toHaveProperty(['userDetails']);
     });
   });
 
   describe('deleteAccountById',()=>{
     it('should be able to deleteAccountById',async ()=>{
-      accountRes.data.closing_date = Date.now().toString();
+      accountRes.data.closingDate = Date.now().toString();
       await execModule(accountRes);
-      const result = await service.deleteAccountById(accountDto.account_number,customerRes);
+      const result = await service.deleteAccountById(accountDto.accountNumber,customerRes);
       expect(result.customerId).toBe('123456789');
-      expect(result.account_number).toBe('987654321');
-      expect(result).toHaveProperty(['closing_date']);
+      expect(result.accountNumber).toBe('987654321');
+      expect(result).toHaveProperty(['closingDate']);
     });
   });
 
@@ -183,7 +183,7 @@ describe('AccountService', () => {
     it('should be able to makeServiceCall',async ()=>{
       const result:any = await exec('updateAccount',accountDto);
       expect(result.customerId).toBe('123456789');
-      expect(result.account_number).toBe('987654321');
+      expect(result.accountNumber).toBe('987654321');
     });
 
     it('should throw Account id required',async ()=>{

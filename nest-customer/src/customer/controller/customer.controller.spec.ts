@@ -18,19 +18,19 @@ describe('Customer Controller', () => {
 
   const userDetails =  {
     dob : '01/01/2000',
-    martial_status: 'married',
-    pan_card : 'demo1234',
+    martialStatus: 'married',
+    panCard : 'demo1234',
     nationality : 'Indian',
-    phone_number : '123456679',
+    phoneNumber : '123456679',
   };
 
-  const mailingaddress = {
+  const mailingAddress = {
     address1 : 'DemoAddress1',
     address2 : 'DemoAddress2',
     city : 'DemoCity',
     state : 'DemoState',
     country : 'DemoCountry',
-    zip_code : '722359',
+    zipCode : '722359',
   };
 
   function mockCustomerService(dto: any) {
@@ -81,7 +81,7 @@ describe('Customer Controller', () => {
     customerDto.password = 'abcd12324';
     customerDto.isActive = true;
     customerDto.userDetails = userDetails;
-    customerDto.mailingaddress = mailingaddress;
+    customerDto.mailingAddress = mailingAddress;
     
     customerRes.email = 'abc@mail.com';
     customerRes.customerId = '123456789';
@@ -89,7 +89,7 @@ describe('Customer Controller', () => {
     customerRes.password = await bcrypt.hash(customerDto.password,salt);
     customerRes.isActive = true;
     customerRes.userDetails = userDetails;
-    customerRes.mailingaddress = mailingaddress;
+    customerRes.mailingaddress = mailingAddress;
   
     const module: TestingModule = await Test.createTestingModule({
       imports: [SharedModule, 

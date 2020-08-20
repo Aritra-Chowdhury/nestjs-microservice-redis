@@ -38,15 +38,15 @@ export class AccountController {
 
         @MessagePattern({cmd:'getAccountById'})
         async getAccountById(accountDto: AccountDto):Promise<any>{
-            this.logger.debug("In Account controller::getAccountById::"+accountDto.account_number);
-            const account = await this.accountService.getAccountById(accountDto.account_number,accountDto.customer);
+            this.logger.debug("In Account controller::getAccountById::"+accountDto.accountNumber);
+            const account = await this.accountService.getAccountById(accountDto.accountNumber,accountDto.customer);
             return this.getResponse(account,HttpStatus.OK);
         }
 
         @MessagePattern({cmd:'deleteAccountById'})
         async deleteAccountById(accountDto: AccountDto):Promise<any>{
             this.logger.debug("In Account controller::deleteAccountById::"+accountDto);
-            const account = await this.accountService.deleteAccountById(accountDto.account_number,accountDto.customer);
+            const account = await this.accountService.deleteAccountById(accountDto.accountNumber,accountDto.customer);
             return this.getResponse(account,HttpStatus.OK);
         }
 

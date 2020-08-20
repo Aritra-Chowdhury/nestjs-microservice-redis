@@ -18,19 +18,19 @@ describe('Account Controller', () => {
   
   const userDetails =  {
     dob : '01/01/2000',
-    martial_status: 'married',
-    pan_card : 'demo1234',
+    martialStatus: 'married',
+    panCard : 'demo1234',
     nationality : 'Indian',
-    phone_number : '123456679',
+    phoneNumber : '123456679',
   };
 
-  const mailingaddress = {
+  const mailingAddress = {
     address1 : 'DemoAddress1',
     address2 : 'DemoAddress2',
     city : 'DemoCity',
     state : 'DemoState',
     country : 'DemoCountry',
-    zip_code : '722359',
+    zipCode : '722359',
   };
 
   let customerRes:any = {
@@ -39,7 +39,7 @@ describe('Account Controller', () => {
       email: "abc@mail.com",
       password : "demopassword",
       userDetails: userDetails,
-      mailingaddress: mailingaddress,
+      mailingAddress: mailingAddress,
       isActive : true
   }
   function mockAccountService(dto:any){
@@ -68,11 +68,11 @@ describe('Account Controller', () => {
 
     accountDto = new AccountDto();
 
-    accountDto.account_type='current';
-    accountDto.opening_date=Date.now().toString();
+    accountDto.accountType='current';
+    accountDto.openingDate=Date.now().toString();
     accountDto.customerId = "123456789";
     accountDto.userDetails = userDetails;
-    accountDto.mailingaddress = mailingaddress;
+    accountDto.mailingAddress = mailingAddress;
     accountDto.isJoint = false;
     accountDto.customer = customerRes;
 
@@ -80,12 +80,12 @@ describe('Account Controller', () => {
       status : HttpStatus.OK,
       data : {
         customerId: '123456789',
-        account_number : '987654321',
-        account_type: 'current',
-        opening_date : Date.now().toString(),
+        accountNumber : '987654321',
+        accountType: 'current',
+        openingDate : Date.now().toString(),
         isJoint: false,
         userDetails,
-        mailingaddress
+        mailingAddress
       }
     }
 
@@ -121,22 +121,22 @@ describe('Account Controller', () => {
         }
       const result = await controller.createAccount(mockResponse,accountDto);
       expect(result.status).toBe(200);
-      expect(result.data.account_number).toBe('987654321');
+      expect(result.data.accountNumber).toBe('987654321');
     });
   });
 
   describe('updateAccount',()=>{
     it('should be able to upadte an account',async ()=>{
 
-      accountRes.data.account_type = "savings";
+      accountRes.data.accountType = "savings";
         const mockResponse= {
           status : jest.fn().mockReturnThis(),
           send : jest.fn().mockReturnValue(accountRes)
         }
       const result = await controller.updateAccount(mockResponse,accountDto);
       expect(result.status).toBe(200);
-      expect(result.data.account_number).toBe('987654321');
-      expect(result.data.account_type).toBe('savings');
+      expect(result.data.accountNumber).toBe('987654321');
+      expect(result.data.accountType).toBe('savings');
     });
   });
 
@@ -157,7 +157,7 @@ describe('Account Controller', () => {
 
       const result = await controller.getAllAccount(mockRequest,mockResponse);
       expect(result.status).toBe(200);
-      expect(result.data[0].account_number).toBe('987654321');
+      expect(result.data[0].accountNumber).toBe('987654321');
     });
   });
 
@@ -175,16 +175,16 @@ describe('Account Controller', () => {
           })
         }
 
-      const result = await controller.getAccountById(mockRequest,mockResponse,accountDto.account_number);
+      const result = await controller.getAccountById(mockRequest,mockResponse,accountDto.accountNumber);
       expect(result.status).toBe(200);
-      expect(result.data.account_number).toBe('987654321');
+      expect(result.data.accountNumber).toBe('987654321');
     });
   });
 
 
   describe('deleteAccountById',()=>{
     it('should be able to deactivate an account',async ()=>{
-      accountRes.data.closing_date = Date.now().toString();
+      accountRes.data.closingDate = Date.now().toString();
         const mockResponse= {
           status : jest.fn().mockReturnThis(),
           send : jest.fn().mockReturnValue(accountRes)
@@ -197,10 +197,10 @@ describe('Account Controller', () => {
           })
         }
 
-      const result = await controller.deleteAccountById(mockRequest,mockResponse,accountDto.account_number);
+      const result = await controller.deleteAccountById(mockRequest,mockResponse,accountDto.accountNumber);
       expect(result.status).toBe(200);
-      expect(result.data.account_number).toBe('987654321');
-      expect(result.data.closing_date).toBeDefined();
+      expect(result.data.accountNumber).toBe('987654321');
+      expect(result.data.closingDate).toBeDefined();
     });
   });
 

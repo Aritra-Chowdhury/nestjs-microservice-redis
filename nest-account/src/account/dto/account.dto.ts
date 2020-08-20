@@ -1,24 +1,24 @@
 export class AccountDto {
-    account_number : string;
-    account_type : string;
-    opening_date : string;
-    closing_date : string;
+    accountNumber : string;
+    accountType : string;
+    openingDate : string;
+    closingDate : string;
     customerId : string;
     customer : any;
     userDetails: {
         dob : string;
-        martial_status: string;
-        pan_card : string;
+        martialStatus: string;
+        panCard : string;
         nationality : string;
-        phone_number : string;
+        phoneNumber : string;
     };
-    mailingaddress: {
+    mailingAddress: {
         address1 : string;
         address2 : string;
         city : string;
         state : string;
         country : string;
-        zip_code : string;
+        zipCode : string;
     };
     isJoint : boolean;
 }

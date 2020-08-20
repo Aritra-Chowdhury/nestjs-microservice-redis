@@ -5,18 +5,18 @@ export class CustomerDto{
     password : string;
     userDetails: {
             dob : string;
-            martial_status: string;
-            pan_card : string;
+            martialStatus: string;
+            panCard : string;
             nationality : string;
-            phone_number : string;
+            phoneNumber : string;
     };
-    mailingaddress: {
+    mailingAddress: {
             address1 : string;
             address2 : string;
             city : string;
             state : string;
             country : string;
-            zip_code : string;
+            zipCode : string;
     };
     isActive : boolean;
 };

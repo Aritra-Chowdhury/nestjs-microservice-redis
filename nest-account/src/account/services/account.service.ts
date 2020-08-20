@@ -32,8 +32,8 @@ export class AccountService {
     }
 
     async updateAccount(accountDto : AccountDto):Promise<any>{
-        const updatedAccount = await this.accountModel.findByIdAndUpdate(accountDto.account_number,{
-            $set : _.pick(accountDto,['account_type','isJoint'])},{new : true});
+        const updatedAccount = await this.accountModel.findByIdAndUpdate(accountDto.accountNumber,{
+            $set : _.pick(accountDto,['accountType','isJoint'])},{new : true});
         
         if(!updatedAccount) throw new RpcException({message:'Account does not exist!',status:HttpStatus.NOT_FOUND});
 

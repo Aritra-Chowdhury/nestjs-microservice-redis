@@ -15,19 +15,19 @@ describe('AccountService', () => {
 
   const userDetails =  {
     dob : '01/01/2000',
-    martial_status: 'married',
-    pan_card : 'demo1234',
+    martialStatus: 'married',
+    panCard : 'demo1234',
     nationality : 'Indian',
-    phone_number : '123456679',
+    phoneNumber : '123456679',
   };
 
-  const mailingaddress = {
+  const mailingAddress = {
     address1 : 'DemoAddress1',
     address2 : 'DemoAddress2',
     city : 'DemoCity',
     state : 'DemoState',
     country : 'DemoCountry',
-    zip_code : '722359',
+    zipCode : '722359',
   };
 
   let customerRes:any = {
@@ -38,7 +38,7 @@ describe('AccountService', () => {
       email: "abc@mail.com",
       password : "demopassword",
       userDetails: userDetails,
-      mailingaddress: mailingaddress,
+      mailingaddress: mailingAddress,
       isActive : true
     }
   }
@@ -100,11 +100,11 @@ describe('AccountService', () => {
     accountDto = new AccountDto();
     accountRes =  new AccountDto();
 
-    accountDto.account_type='current';
-    accountDto.opening_date=Date.now().toString();
+    accountDto.accountType='current';
+    accountDto.openingDate=Date.now().toString();
     accountDto.customerId = "123456789";
     accountDto.userDetails = userDetails;
-    accountDto.mailingaddress = mailingaddress;
+    accountDto.mailingAddress = mailingAddress;
     accountDto.isJoint = false;
     accountDto.customer = customerRes;
 
@@ -209,12 +209,12 @@ describe('AccountService', () => {
     }
 
     it('should be able to update the account ',async ()=>{
-      accountDto.account_type = 'savings';
-      accountRes.account_type = 'savings';
+      accountDto.accountType = 'savings';
+      accountRes.accountType = 'savings';
       await execModule(accountRes,customerRes);
       const result = await exec(accountDto);
       expect(result.account_number).toBe('987654321');
-      expect(result.account_type).toBe('savings');
+      expect(result.accountType).toBe('savings');
     });
 
     it('should throw Account does not exist!',async ()=>{
