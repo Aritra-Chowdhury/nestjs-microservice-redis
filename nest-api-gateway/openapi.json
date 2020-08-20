@@ -619,7 +619,7 @@
             "type": "string",
             "description": "Credential to login in the appliation."
           },
-          "user_details": {
+          "userDetails": {
             "type": "object",
             "description": "Personal details of the customer.",
             "allOf": [
@@ -628,7 +628,7 @@
               }
             ]
           },
-          "mailingaddress": {
+          "mailingAddress": {
             "type": "object",
             "description": "Mailing address of the customer.",
             "allOf": [
@@ -657,7 +657,7 @@
             "type": "string",
             "description": "Email Id of the customer."
           },
-          "user_details": {
+          "userDetails": {
             "type": "object",
             "description": "Personal details of the customer.",
             "allOf": [
@@ -666,7 +666,7 @@
               }
             ]
           },
-          "mailingaddress": {
+          "mailingAddress": {
             "type": "object",
             "description": "Mailing address of the customer.",
             "allOf": [
@@ -695,7 +695,7 @@
             "description": "Date of the birth of the customer.",
             "format": "date-time"
           },
-          "martial_status": {
+          "martialStatus": {
             "type": "string",
             "description": "Martial status of the customer.",
             "enum": [
@@ -704,7 +704,7 @@
               "separated"
             ]
           },
-          "pan_card": {
+          "panCard": {
             "type": "string",
             "description": "Pan Card number of the customer."
           },
@@ -712,7 +712,7 @@
             "type": "string",
             "description": "Nationality of the customer."
           },
-          "phone_number": {
+          "phoneNumber": {
             "type": "string",
             "description": "Phone number of the customer."
           }
@@ -751,7 +751,7 @@
             "type": "string",
             "description": "Mailing country of the customer."
           },
-          "zip-code": {
+          "zipCode": {
             "type": "string",
             "description": "Mailing zip-code of the customer."
           }
@@ -762,31 +762,31 @@
       },
       "Account": {
         "required": [
-          "account_type",
-          "customer_id",
-          "mailingaddress",
-          "user_details"
+          "accountType",
+          "customerId",
+          "mailingAddress",
+          "userDetails"
         ],
         "type": "object",
         "properties": {
-          "account_number": {
+          "accountNumber": {
             "type": "string",
-            "description": "Account_number for the customer account."
+            "description": "AccountNumber for the customer account."
           },
-          "account_type": {
+          "accountType": {
             "type": "string",
-            "description": "Account_type for the customer account.",
+            "description": "AccountTtype for the customer account.",
             "enum": [
               "Current",
               "Saving",
               "Credit"
             ]
           },
-          "customer_id": {
+          "customerId": {
             "type": "string",
             "description": "Customer_id of the customer."
           },
-          "user_details": {
+          "userDetails": {
             "type": "object",
             "description": "Personal details of the customer.",
             "allOf": [
@@ -795,7 +795,7 @@
               }
             ]
           },
-          "mailingaddress": {
+          "mailingAddress": {
             "type": "object",
             "description": "Mailing address of the customer.",
             "allOf": [
@@ -804,12 +804,12 @@
               }
             ]
           },
-          "opening_date": {
+          "openingDate": {
             "type": "string",
             "description": "Account opening date.",
             "format": "date-time"
           },
-          "closing_date": {
+          "closingDate": {
             "type": "string",
             "description": "Account closing date.",
             "format": "date-time"

@@ -23,10 +23,10 @@ export class AccountService {
     async createAccount(accountDto : AccountDto ):Promise<any>{  
 
         this.logger.debug("In AccountService controller::createAccount::"+accountDto);
-        var customer = await this.updateCustomerData(_.pick(accountDto,['customerId','userDetails','mailingaddress']));
+        var customer = await this.updateCustomerData(_.pick(accountDto,['customerId','userDetails','mailingAddress']));
         if(!customer) throw new RpcException({message:'Customer does not exist!',status:HttpStatus.NOT_FOUND});
 
-        const account = await this.accountModel(_.pick(accountDto,['account_type','customerId','isJoint']));
+        const account = await this.accountModel(_.pick(accountDto,['accountType','customerId','isJoint']));
         await account.save();
         return this.populateAccountData(account,customer);
     }
@@ -65,7 +65,7 @@ export class AccountService {
     async deleteAccountById(accountId:any,customer:any):Promise<any>{
 
         const account = await this.accountModel.findByIdAndUpdate(accountId,{
-            $set : {closing_date : new Date()}},{new : true});
+            $set : {closingDate : new Date()}},{new : true});
         if(!account) 
         throw new RpcException({message:'No account found with the account number for the customer!',status:HttpStatus.NOT_FOUND});
                                        
@@ -113,7 +113,7 @@ export class AccountService {
     populateAccountData(account,customer){
         var accountObj = account.transform();
         accountObj.userDetails = customer.userDetails;
-        accountObj.mailingaddress = customer.mailingaddress;
+        accountObj.mailingAddress = customer.mailingAddress;
       
         return accountObj;
     }

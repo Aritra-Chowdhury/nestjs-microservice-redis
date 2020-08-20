@@ -100,7 +100,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Aritra Chowdhury\",\n    \"email\": \"abc5@mail.com\",\n\t \"userDetails\": {\n            \"dob\" : \"13/01/1996\",\n            \"martial_status\": \"unmarried\",\n            \"pan_card\" : \"PAN123456\",\n            \"nationality\" : \"Indian\",\n            \"phone_number\" : \"1242424234234\"\n    },\n    \"mailingaddress\": {\n            \"address1\" : \"123\",\n            \"address2\" : \"12345\",\n            \"city\" : \"Kolkata\",\n            \"state\" : \"West Bengal\",\n            \"country\" : \"India\",\n            \"zip_code\" : \"700129\"\n    }\n}"
+					"raw": "{\n\t\"name\": \"Aritra Chowdhury\",\n    \"email\": \"abc5@mail.com\",\n\t \"userDetails\": {\n            \"dob\" : \"13/01/1996\",\n            \"martial_status\": \"unmarried\",\n            \"pan_card\" : \"PAN123456\",\n            \"nationality\" : \"Indian\",\n            \"phone_number\" : \"1242424234234\"\n    },\n    \"mailingAddress\": {\n            \"address1\" : \"123\",\n            \"address2\" : \"12345\",\n            \"city\" : \"Kolkata\",\n            \"state\" : \"West Bengal\",\n            \"country\" : \"India\",\n            \"zip_code\" : \"700129\"\n    }\n}"
 				},
 				"description": "http://localhost:3000/api/v1/customer"
 			},

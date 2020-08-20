@@ -89,7 +89,7 @@ describe('Customer Controller', () => {
     customerRes.password = await bcrypt.hash(customerDto.password,salt);
     customerRes.isActive = true;
     customerRes.userDetails = userDetails;
-    customerRes.mailingaddress = mailingAddress;
+    customerRes.mailingAddress = mailingAddress;
   
     const module: TestingModule = await Test.createTestingModule({
       imports: [SharedModule, 

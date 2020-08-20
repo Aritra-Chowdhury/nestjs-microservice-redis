@@ -8,7 +8,7 @@ export const customerSchema = new mongoose.Schema({
     password : { type:String , minlength: 8 , required : true},
     userDetails: {
             dob : {type:String},
-            martial_status: {type:String ,enum:["unmarried","married","separated"]},
+            martialStatus: {type:String ,enum:["unmarried","married","separated"]},
             panCard : {type:String},
             nationality : {type:String},
             phoneNumber : {type:String}
@@ -67,7 +67,7 @@ const joiMailingAddressSchema = Joi.object({
 
  const joiUserDetailsSchema = Joi.object({
     dob : Joi.string().required(),
-    martial_status: Joi.string().valid('unmarried','married','separated').required(),
+    martialStatus: Joi.string().valid('unmarried','married','separated').required(),
     panCard : Joi.string().required(),
     nationality : Joi.string().required(),
     phoneNumber : Joi.string().required()

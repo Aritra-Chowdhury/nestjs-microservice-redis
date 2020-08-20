@@ -11,14 +11,14 @@ const joiMailingAddressSchema = Joi.object({
 
  const joiUserDetailsSchema = Joi.object({
     dob : Joi.string().required(),
-    martial_status: Joi.string().valid('unmarried','married','separated').required(),
+    martialStatus: Joi.string().valid('unmarried','married','separated').required(),
     panCard : Joi.string().required(),
     nationality : Joi.string().required(),
     phoneNumber : Joi.string().required()
  });
 
 export const joiAccountSchema = Joi.object({
-    account_type : Joi.string().valid('Current', 'Saving','Credit').required(),
+    accountType : Joi.string().valid('Current', 'Saving','Credit').required(),
     customerId :Joi.string().required(),
     isJoint : Joi.boolean(),
     userDetails : joiUserDetailsSchema,

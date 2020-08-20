@@ -38,7 +38,7 @@ describe('AccountService', () => {
       email: "abc@mail.com",
       password : "demopassword",
       userDetails: userDetails,
-      mailingaddress: mailingAddress,
+      mailingAddress: mailingAddress,
       isActive : true
     }
   }
@@ -108,8 +108,8 @@ describe('AccountService', () => {
     accountDto.isJoint = false;
     accountDto.customer = customerRes;
 
-    accountRes.account_number='987654321';
-    accountRes.account_type='current';
+    accountRes.accountNumber='987654321';
+    accountRes.accountType='current';
     accountRes.opening_date=Date.now().toString();
     accountRes.customerId = "123456789";
     accountDto.isJoint = false;
@@ -144,7 +144,7 @@ describe('AccountService', () => {
 
     it('should be able to find all account by customer id',async ()=>{
       const result = await exec(accountDto);
-      expect(result[0].account_number).toBe('987654321');
+      expect(result[0].accountNumber).toBe('987654321');
     });
 
     it('should throw No account found or the customer id!',async ()=>{
@@ -159,13 +159,13 @@ describe('AccountService', () => {
   });
 
   describe('getAccountById',()=>{
-    const exec = (account_number,data)=>{
-      return service.getAccountById(account_number,data.customer);
+    const exec = (accountNumber,data)=>{
+      return service.getAccountById(accountNumber,data.customer);
     }
 
     it('should be able to find a account',async ()=>{
       const result = await exec('987654321',accountDto);
-      expect(result.account_number).toBe('987654321');
+      expect(result.accountNumber).toBe('987654321');
     });
 
     it('should throw No account found or the customer id!',async ()=>{
@@ -180,15 +180,15 @@ describe('AccountService', () => {
   });
 
   describe('deleteAccountById',()=>{
-    const exec = (account_number,data)=>{
-      return service.deleteAccountById(account_number,data.customer);
+    const exec = (accountNumber,data)=>{
+      return service.deleteAccountById(accountNumber,data.customer);
     }
 
     it('should be able to update the account closing date',async ()=>{
       accountRes.closing_date = Date.now().toString();
       await execModule(accountRes,customerRes);
       const result = await exec('987654321',accountDto);
-      expect(result.account_number).toBe('987654321');
+      expect(result.accountNumber).toBe('987654321');
       expect(result.closing_date).toBeDefined();
     });
 
@@ -213,7 +213,7 @@ describe('AccountService', () => {
       accountRes.accountType = 'savings';
       await execModule(accountRes,customerRes);
       const result = await exec(accountDto);
-      expect(result.account_number).toBe('987654321');
+      expect(result.accountNumber).toBe('987654321');
       expect(result.accountType).toBe('savings');
     });
 

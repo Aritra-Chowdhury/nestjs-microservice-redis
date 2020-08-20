@@ -530,7 +530,7 @@
           "type": "string",
           "description": "Credential to login in the appliation."
         },
-        "user_details": {
+        "userDetails": {
           "type": "object",
           "allOf": [
             {
@@ -539,7 +539,7 @@
           ],
           "description": "Personal details of the customer."
         },
-        "mailingaddress": {
+        "mailingAddress": {
           "type": "object",
           "allOf": [
             {
@@ -571,7 +571,7 @@
           "type": "string",
           "description": "Email Id of the customer."
         },
-        "user_details": {
+        "userDetails": {
           "type": "object",
           "allOf": [
             {
@@ -580,7 +580,7 @@
           ],
           "description": "Personal details of the customer."
         },
-        "mailingaddress": {
+        "mailingAddress": {
           "type": "object",
           "allOf": [
             {
@@ -602,7 +602,7 @@
           "format": "date-time",
           "description": "Date of the birth of the customer."
         },
-        "martial_status": {
+        "martialStatus": {
           "type": "string",
           "description": "Martial status of the customer.",
           "enum": [
@@ -611,7 +611,7 @@
             "separated"
           ]
         },
-        "pan_card": {
+        "panCard": {
           "type": "string",
           "description": "Pan Card number of the customer."
         },
@@ -619,7 +619,7 @@
           "type": "string",
           "description": "Nationality of the customer."
         },
-        "phone_number": {
+        "phoneNumber": {
           "type": "string",
           "description": "Phone number of the customer."
         }
@@ -658,7 +658,7 @@
           "type": "string",
           "description": "Mailing country of the customer."
         },
-        "zip-code": {
+        "zipCode": {
           "type": "string",
           "description": "Mailing zip-code of the customer."
         }
@@ -677,11 +677,11 @@
     "Account": {
       "type": "object",
       "properties": {
-        "account_number": {
+        "accountNumber": {
           "type": "string",
-          "description": "Account_number for the customer account."
+          "description": "AccountNumber for the customer account."
         },
-        "account_type": {
+        "accountType": {
           "type": "string",
           "enum": [
             "Current",
@@ -690,11 +690,11 @@
           ],
           "description": "Account_type for the customer account."
         },
-        "customer_id": {
+        "customerId": {
           "type": "string",
           "description": "Customer_id of the customer."
         },
-        "user_details": {
+        "userDetails": {
           "type": "object",
           "allOf": [
             {
@@ -703,7 +703,7 @@
           ],
           "description": "Personal details of the customer."
         },
-        "mailingaddress": {
+        "mailingAddress": {
           "type": "object",
           "allOf": [
             {
@@ -712,13 +712,13 @@
           ],
           "description": "Mailing address of the customer."
         },
-        "opening_date": {
+        "openingDate": {
           "type": "string",
           "format": "date-time",
           "description": "Account opening date.",
           "default": "current date"
         },
-        "closing_date": {
+        "closingDate": {
           "type": "string",
           "format": "date-time",
           "description": "Account closing date.",
@@ -726,11 +726,11 @@
         }
       },
       "required": [
-        "account_type",
-        "customer_id",
-        "user_details",
-        "mailingaddress",
-        "zip-code"
+        "accountType",
+        "customerId",
+        "userDetails",
+        "mailingAddress",
+        "zipCode"
       ],
       "xml": {
         "name": "Account"
