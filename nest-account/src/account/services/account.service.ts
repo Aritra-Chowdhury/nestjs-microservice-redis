@@ -22,7 +22,7 @@ export class AccountService {
 
     async createAccount(accountDto : AccountDto ):Promise<any>{  
 
-        this.logger.debug("In AccountService controller::createAccount::"+accountDto);
+        this.logger.debug("In AccountService ::createAccount::"+accountDto);
         var customer = await this.updateCustomerData(_.pick(accountDto,['customerId','userDetails','mailingAddress']));
         if(!customer) throw new RpcException({message:'Customer does not exist!',status:HttpStatus.NOT_FOUND});
 

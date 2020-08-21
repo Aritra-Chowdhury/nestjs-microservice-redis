@@ -1,7 +1,7 @@
 # compiled output
 /dist
 /node_modules
-tsconfig.json
+.env
 
 # Logs
 logs
