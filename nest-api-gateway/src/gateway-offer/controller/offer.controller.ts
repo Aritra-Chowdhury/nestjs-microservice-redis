@@ -30,10 +30,10 @@ export class OfferController {
         }
     
         @UseGuards(JwtAuthGuard)
-        @Get('/type/:loanType')
-        async getOfferByLoanType(@Res() res: any, @Param('loanType') loanType: string):Promise<any>{
-            this.logger.debug("In Offer Controller ::getOfferByLoanType::" + loanType);
-            const offers = await this.offerService.getAllOfferByLoanType(loanType);
+        @Get('/type/:loanType/:offerType')
+        async getOfferByLoanTypeAndOfferType(@Res() res: any, @Param('loanType') loanType: string,@Param('offerType') offerType: string):Promise<any>{
+            this.logger.debug("In Offer Controller ::getOfferByLoanTypeAndOfferType::" + loanType);
+            const offers = await this.offerService.getOfferByLoanTypeAndOfferType(loanType,offerType);
             return res.status(200).send(offers);
         }
     

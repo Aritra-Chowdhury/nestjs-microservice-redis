@@ -3,7 +3,7 @@ export class LoanDto {
     customerId : string;
     accountNumber : string;
     loanType : string;
-    loanAmount : string;
+    loanAmount : number;
     loanDuration : string;
     offer : {
         offerName : string;
@@ -11,4 +11,8 @@ export class LoanDto {
         offerPercentage : number;
     };
     status : string;
+    customer : any;
+    monthlyEMI : number;
+    loanCreationDate : string;
+    lastUpdatedDate : string;
 }

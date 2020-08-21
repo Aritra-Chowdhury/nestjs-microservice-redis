@@ -26,10 +26,10 @@ export class OfferController {
     return this.getResponse(offer,HttpStatus.OK);
     }
 
-    @MessagePattern({cmd:'getOfferByLoanType'})
-        async getOfferByLoanType(loanType: string):Promise<any>{
-        this.logger.debug("In Offer Controller ::getOfferByLoanType::" + loanType);
-        const offers = await this.offerService.getAllOfferByLoanType(loanType);
+    @MessagePattern({cmd:'getOfferByLoanTypeAndOfferType'})
+        async getOfferByLoanTypeAndOfferType(offerData:OfferDto):Promise<any>{
+        this.logger.debug("In Offer Controller ::getOfferByLoanTypeAndOfferType::" + offerData);
+        const offers = await this.offerService.getOfferByLoanTypeAndOfferType(offerData.loanType,offerData.offerType);
         return this.getResponse(offers,HttpStatus.OK);
     }
 
@@ -50,5 +50,5 @@ export class OfferController {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     getResponse(data:any ,statusCode:HttpStatus):any{
         return {data:data,status:statusCode};
-      }
+    }
 }

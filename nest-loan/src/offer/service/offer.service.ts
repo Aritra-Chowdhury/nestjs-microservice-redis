@@ -43,11 +43,11 @@ export class OfferService {
         return updateOffer.transform();
     }
 
-    async getAllOfferByLoanType(loanType: string ):Promise<any>{
+    async getOfferByLoanTypeAndOfferType(loanType: string ,offerType: string ):Promise<any>{
 
-        const offers = await this.offerModel.find({loanType});
+        const offers = await this.offerModel.find({offerType : offerType, loanType : loanType});
         if(offers && offers.length == 0) 
-        throw new RpcException({message:'No offer available for the loan type!',status:HttpStatus.NOT_FOUND});
+        throw new RpcException({message:'No offer available for the loan type and offer Type!',status:HttpStatus.NOT_FOUND});
 
         const offerList = [];
         offers.forEach((offer)=>{

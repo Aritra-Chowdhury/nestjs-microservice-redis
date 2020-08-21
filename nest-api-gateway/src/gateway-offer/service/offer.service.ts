@@ -18,9 +18,12 @@ export class OfferService {
         return this.makeServiceCall('updateOffer', offerDto);
     }
 
-    async getAllOfferByLoanType(loanType: string ):Promise<any>{
-        this.logger.debug("In OfferService::getAllOfferByLoanType");
-        return this.makeServiceCall('getOfferByLoanType', loanType);   
+    async getOfferByLoanTypeAndOfferType(loanType: string ,offerType: string):Promise<any>{
+        this.logger.debug("In OfferService::getOfferByLoanTypeAndOfferType");
+        var offerData:OfferDto = new OfferDto();
+        offerData.loanType = loanType;
+        offerData.offerType = offerType;
+        return this.makeServiceCall('getOfferByLoanTypeAndOfferType', offerData);   
     }
 
     async getAllOffer():Promise<any>{

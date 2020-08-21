@@ -6,12 +6,15 @@ import { OfferModule } from 'src/offer/offer.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { loanSchema } from './schema/loan.schema';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { offerSchema } from '../offer/schema/offer.schema';
 
 @Module({
   imports: [
     SharedModule,
     OfferModule,
-    MongooseModule.forFeature([{ name: 'Loan', schema: loanSchema}]),
+    MongooseModule.forFeature([
+      { name: 'Loan', schema: loanSchema},
+      { name: 'Offer', schema: offerSchema}]),
     ClientsModule.register([
       {
           name: "Account_service",
