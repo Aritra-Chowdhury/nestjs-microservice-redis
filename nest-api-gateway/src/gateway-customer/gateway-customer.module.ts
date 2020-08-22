@@ -4,7 +4,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { CustomerController } from './controller/customer.controller';
 import { CustomerService } from './service/customer.service';
-import { SharedModule } from 'src/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { JwtAuthGuard } from './authgaurd/jwt.gaurd';
 
 @Module({

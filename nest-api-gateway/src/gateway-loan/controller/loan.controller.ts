@@ -5,6 +5,7 @@ import { JwtAuthGuard } from '../../gateway-customer/authgaurd/jwt.gaurd';
 import { ValidationPipe } from '../../shared/validation.pipe';
 import { joiLoanCreateSchema , joiLoanUpdateSchema ,joiLoanValidateSchema } from '../schema/loan.schema';
 import { LoanDto } from '../dto/loan.dto';
+import { Roles } from '../../gateway-customer/authgaurd/roles.decorator';
 
 @Controller('api/v1/loan')
 export class LoanController {
@@ -31,6 +32,7 @@ export class LoanController {
 
 
     @UseGuards(JwtAuthGuard)
+    @Roles('admin')
     @UsePipes(new ValidationPipe([joiLoanValidateSchema]))
     @Put('/status')
     async validateLoan(@Res() res: any, @Body()loanDto : LoanDto):Promise<any>{

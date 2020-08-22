@@ -7,25 +7,30 @@ import {
     Inject,
   } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { CustomerService } from '../service/customer.service';
+import { Reflector } from '@nestjs/core';
 
   @Injectable()
   export class JwtAuthGuard extends AuthGuard('jwt') {
 
-    constructor(
+    constructor(private reflector: Reflector,
       private jwtService: JwtService,private customerService: CustomerService,
       @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
       ){
         super();
       }
     
-    canActivate(context: ExecutionContext):any{
-      // Add your custom authentication logic here
-      // for example, call super.logIn(request) to establish a session.
+    async canActivate(context: ExecutionContext): Promise<boolean>{
+      const roles = this.reflector.get<string[]>('roles', context.getHandler());
       const request = context.switchToHttp().getRequest();
+      
+      if(roles){
+        const valid = await this.validateRequestHeader(request);
+        if(valid)
+        return this.matchRoles(roles,request.body.userRoles);
+      }
       return this.validateRequestHeader(request);
     }
 
@@ -42,6 +47,8 @@ import { CustomerService } from '../service/customer.service';
 
               request.body.customerId = customer.customerId;
               request.body.customer = customer;
+              if(customer.name == 'Admin') request.body.userRoles = 'admin';
+
               return true;
             }
             else 
@@ -54,6 +61,14 @@ import { CustomerService } from '../service/customer.service';
             throw new UnauthorizedException(HttpStatus.UNAUTHORIZED,err.message); 
         }
       }
+    }
+
+    matchRoles(roles:any, userRoles:string):boolean{
+
+      if(roles.includes(userRoles))
+      return true;
+      else
+      throw new UnauthorizedException(HttpStatus.UNAUTHORIZED,'User not authorized. Please try with an admin user'); 
     }
   
     // handleRequest(err, user, info) :any{

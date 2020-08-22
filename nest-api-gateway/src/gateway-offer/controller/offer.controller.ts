@@ -5,6 +5,7 @@ import { JwtAuthGuard } from '../../gateway-customer/authgaurd/jwt.gaurd';
 import { ValidationPipe } from '../../shared/validation.pipe';
 import { joiOfferCreateSchema, joiOfferUpdateSchema } from '../schema/offer.schema';
 import { OfferDto } from '../dto/offer.dto';
+import { Roles } from '../../gateway-customer/authgaurd/roles.decorator';
 
 @Controller('api/v1/offer')
 export class OfferController {
@@ -12,6 +13,7 @@ export class OfferController {
         @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger){}
     
         @UseGuards(JwtAuthGuard)
+        @Roles('admin')
         @UsePipes(new ValidationPipe([joiOfferCreateSchema]))
         @Post()
         async createOffer(@Res() res: any, @Body() offerDto: OfferDto):Promise<any>{
@@ -21,6 +23,7 @@ export class OfferController {
         }
     
         @UseGuards(JwtAuthGuard)
+        @Roles('admin')
         @UsePipes(new ValidationPipe([joiOfferUpdateSchema]))
         @Put()
         async updateOffer(@Res() res: any, @Body() offerDto: OfferDto):Promise<any>{

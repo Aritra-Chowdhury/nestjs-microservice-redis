@@ -9,7 +9,8 @@ import { JwtAuthGuard } from '../../gateway-customer/authgaurd/jwt.gaurd';
 import { ValidationPipe } from '../../shared/validation.pipe';
 import { SharedModule } from '../../shared/shared.module';
 import { CustomerService } from '../../gateway-customer/service/customer.service';
-import { Response } from 'express';
+import { JwtModule } from '@nestjs/jwt';
+
 
 describe('Account Controller', () => {
   let controller: AccountController;
@@ -98,6 +99,10 @@ describe('Account Controller', () => {
           transports: [
             new winston.transports.Console(),
           ]
+        }),
+        JwtModule.register({
+          secret: 'privatekey',
+          signOptions: { expiresIn: '10000s' },
         })
       ],
       controllers: [AccountController],
