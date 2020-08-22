@@ -27,7 +27,8 @@ import { JwtAuthGuard } from './authgaurd/jwt.gaurd';
             //     port: parseInt(process.env.CUSTOMER_PORT) || 3001
             // }
         }
-        ])],
+        ])
+    ],
     controllers: [CustomerController],
     providers: [CustomerService,JwtAuthGuard],
     exports: [JwtAuthGuard,CustomerService]

@@ -2,6 +2,7 @@ import { Injectable, NotFoundException, Inject, Logger, BadRequestException, Htt
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from "mongoose";
 import * as _ from 'lodash';
+import * as CircuitBreaker  from 'opossum';
 
 import { Account } from '../schema/account.schema';
 import { AccountDto } from '../dto/account.dto';
@@ -15,6 +16,11 @@ export class AccountService {
     @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
     @Inject("Customer_service") private readonly clientCustomer: ClientProxy){}
     
+    options:any = {
+        timeout: 3000, // If our function takes longer than 3 seconds, trigger a failure
+        errorThresholdPercentage: 50, // When 50% of requests fail, trip the circuit
+        resetTimeout: 30000 // After 30 seconds, try again.
+    };
 
     async onApplicationBootstrap() {
         await this.clientCustomer.connect();
@@ -90,25 +96,55 @@ export class AccountService {
     //         );
     //     })
     // }
-  async updateCustomerData(data:any):Promise<any>{
-    return new Promise((resolve, reject)=>{
-        this.clientCustomer.send<any,any>({cmd:'updateCustomer'},data).subscribe(
-            (result) =>{
-                if(result.status != 200){
-                    reject(result);
-                }
-                this.logger.debug("In CustomerService::makeServiceCall::"+JSON.stringify(result));
-                resolve(result.data);
-            },
-            (error) => {
-                this.logger.error(error);
-                reject({message:"Error while calling customer service",status:HttpStatus.INTERNAL_SERVER_ERROR});
-            }
-        );
-    }).catch(result=>{
-            this.logger.debug(" Response from account service with status:"+result.status+"message:"+JSON.stringify(result.message));
+//   async updateCustomerData(data:any):Promise<any>{
+//     return new Promise((resolve, reject)=>{
+//         this.clientCustomer.send<any,any>({cmd:'updateCustomer'},data).subscribe(
+//             (result) =>{
+//                 if(result.status != 200){
+//                     reject(result);
+//                 }
+//                 this.logger.debug("In CustomerService::makeServiceCall::"+JSON.stringify(result));
+//                 resolve(result.data);
+//             },
+//             (error) => {
+//                 this.logger.error(error);
+//                 reject({message:"Error while calling customer service",status:HttpStatus.INTERNAL_SERVER_ERROR});
+//             }
+//         );
+//     }).catch(result=>{
+//             this.logger.debug(" Response from account service with status:"+result.status+"message:"+JSON.stringify(result.message));
+//             throw new RpcException({message:result.message,status:parseInt(result.status)});
+//         });;
+//     }
+
+    async updateCustomerData(data:any){
+        const result = await this.breakerDesign(data);
+        if(result.status != 200 && result.status != 201){
+            this.logger.debug(" Response from customer service with status:"+result.status+" message:"+JSON.stringify(result.message));
             throw new RpcException({message:result.message,status:parseInt(result.status)});
-        });;
+        }
+        this.logger.debug("In CustomerService::makeServiceCall::"+JSON.stringify(result));
+        return result.data;
+
+    }
+
+    makeCall(data:any):Promise<any>{
+        return new Promise(async (resolve, reject)=>{
+            this.clientCustomer.send<any,any>({cmd: 'updateCustomer'},data).subscribe(
+                (result) =>{
+                    resolve(result) ;
+                },
+                (err) => {
+                    console.log(err);
+                    reject({message:"Error while calling customer service",status:HttpStatus.INTERNAL_SERVER_ERROR});
+                });
+        });
+    }
+    
+    async breakerDesign( data:any):Promise<any>{
+        const circuitBreaker = new CircuitBreaker(this.makeCall.bind(this),this.options);
+        //console.log(circuitBreaker.status.stats);
+        return circuitBreaker.fire(data);
     }
     populateAccountData(account,customer){
         var accountObj = account.transform();

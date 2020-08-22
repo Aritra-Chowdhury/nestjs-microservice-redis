@@ -9,7 +9,7 @@ async function bootstrap() {
       url: 'redis://localhost:6379'
     }
   });
-  app.listen(() => console.log(`Offer service listening on : http://localhost:${process.env.PORT}`));
+  app.listen(() => console.log(`Loan service listening on : http://localhost:${process.env.PORT}`));
 }
 
 bootstrap();

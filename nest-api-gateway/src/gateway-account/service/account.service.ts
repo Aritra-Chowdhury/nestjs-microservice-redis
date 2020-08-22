@@ -1,15 +1,20 @@
 import { Injectable, Inject, Logger, BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AccountDto } from '../dto/account.dto';
-import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
+import * as CircuitBreaker  from 'opossum';
 
 @Injectable()
 export class AccountService {
     constructor (@Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
         @Inject("Account_service") private readonly clientAccount: ClientProxy){}
     
-
+    options:any = {
+        timeout: 3000, // If our function takes longer than 3 seconds, trigger a failure
+        errorThresholdPercentage: 50, // When 50% of requests fail, trip the circuit
+        resetTimeout: 30000 // After 30 seconds, try again.
+     };
+    
     // async onApplicationBootstrap() {
     //     await this.clientAccount.connect();
     // } 
@@ -48,43 +53,54 @@ export class AccountService {
 
     }
 
-    async makeServiceCall(pattern:any , data:any){
-        return new Promise((resolve, reject)=>{
-            this.clientAccount.send<any,any>({cmd:pattern},data).subscribe(
-                (result) =>{
-                    if(result.status != 200 && result.status != 201){
-                        reject(result);
-                    }
-                    this.logger.debug("In AccountService::makeServiceCall::"+JSON.stringify(result));
-                    resolve(result.data);
-                },
-                (error) => {
-                    this.logger.error(error);
-                    reject({message:"Error while calling account service",status:HttpStatus.INTERNAL_SERVER_ERROR});
-                }
-            );
-        }).catch(result=>{
-            this.logger.debug(" Response from account service with status:"+result.status+"message:"+JSON.stringify(result.message));
-            throw new HttpException(result.message,parseInt(result.status));
-        });
-    }
-
-    // async updateCustomerData(token:string, data:any):Promise<any>{
+    // async makeServiceCall(pattern:any , data:any){
     //     return new Promise((resolve, reject)=>{
-    //         this.sharedService.updateCustomer(token,data).subscribe(
+    //         this.clientAccount.send<any,any>({cmd:pattern},data).subscribe(
     //             (result) =>{
-    //                 if(result.status != 200){
-    //                     this.logger.error("Customer not found in account update with status:"+result.status+" error message:"+JSON.stringify(result.data));
-    //                     throw new BadRequestException(result.data);
+    //                 if(result.status != 200 && result.status != 201){
+    //                     reject(result);
     //                 }
-    //                 this.logger.debug("In AuthService::validateCustomer::"+JSON.stringify(result.data));
+    //                 this.logger.debug("In AccountService::makeServiceCall::"+JSON.stringify(result));
     //                 resolve(result.data);
     //             },
     //             (error) => {
     //                 this.logger.error(error);
-    //                 reject("Error while calling customer service");
+    //                 reject({message:"Error while calling account service",status:HttpStatus.INTERNAL_SERVER_ERROR});
     //             }
     //         );
-    //     })
+    //     }).catch(result=>{
+    //         this.logger.debug(" Response from account service with status:"+result.status+"message:"+JSON.stringify(result.message));
+    //         throw new HttpException(result.message,parseInt(result.status));
+    //     });
     // }
+
+    async makeServiceCall(pattern:any , data:any){
+        const result = await this.breakerDesign(pattern,data);
+        if(result.status != 200 && result.status != 201){
+            this.logger.debug(" Response from account service with status:"+result.status+" message:"+JSON.stringify(result.message));
+            throw new HttpException(result.message,parseInt(result.status));
+        }
+        this.logger.debug("In AccountService::makeServiceCall::"+JSON.stringify(result));
+        return result.data;
+
+    }
+
+    makeCall(pattern:any , data:any):Promise<any>{
+        return new Promise(async (resolve, reject)=>{
+            this.clientAccount.send<any,any>({cmd: pattern},data).subscribe(
+                (result) =>{
+                    resolve(result) ;
+                },
+                (err) => {
+                    console.log(err);
+                    reject({message:"Error while calling account service",status:HttpStatus.INTERNAL_SERVER_ERROR});
+                });
+        });
+    }
+    
+    async breakerDesign(pattern:any , data:any):Promise<any>{
+        const circuitBreaker = new CircuitBreaker(this.makeCall.bind(this),this.options);
+        //console.log(circuitBreaker.status.stats);
+        return circuitBreaker.fire(pattern , data);
+    }
 }

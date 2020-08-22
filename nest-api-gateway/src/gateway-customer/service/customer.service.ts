@@ -6,7 +6,6 @@ import * as CircuitBreaker  from 'opossum';
 import { CustomerRegisterDto } from '../dto/customer.register.dto';
 import { CustomerDto } from '../dto/customer.dto';
 import { ClientProxy } from '@nestjs/microservices';
-import { error } from 'winston';
 
 @Injectable()
 export class CustomerService {
@@ -15,9 +14,9 @@ export class CustomerService {
         @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
         @Inject("Customer_service") private readonly clientCustomer: ClientProxy){}
 
-    // async onApplicationBootstrap() {
-    //     await this.clientCustomer.connect();
-    // } 
+    async onApplicationBootstrap() {
+        await this.clientCustomer.connect();
+    } 
 
     options:any = {
         timeout: 3000, // If our function takes longer than 3 seconds, trigger a failure
@@ -57,52 +56,62 @@ export class CustomerService {
         return this.makeServiceCall('updateCustomer', customerDto);     
     }
 
-    async makeServiceCall(pattern:any , data:any){
-        return new Promise((resolve, reject)=>{
-            this.clientCustomer.send<any,any>({cmd: pattern},data).subscribe(
-                (result) =>{
-                    if(result.status != 200 && result.status != 201){
-                        reject(result);
-                    }
-                    this.logger.debug("In CustomerService::makeServiceCall::"+JSON.stringify(result));
-                    resolve(result.data);
-                },
-                (error) => {
-                    this.logger.error(error);
-                    reject({message:"Error while calling customer service",status:HttpStatus.INTERNAL_SERVER_ERROR});
-                }
-            );
-        }).catch(result=>{
-            this.logger.debug(" Response from account service with status:"+result.status+" message:"+JSON.stringify(result.message));
-            throw new HttpException(result.message,parseInt(result.status));
-        });
-    }
-
     // async makeServiceCall(pattern:any , data:any){
-    //     const result = await this.breakerDesign({cmd: pattern},data);
-    //     if(result.status != 200 && result.status != 201){
-    //         this.logger.debug(" Response from account service with status:"+result.status+" message:"+JSON.stringify(result.message));
-    //         throw new HttpException(result.message,parseInt(result.status));
-    //     }
-    //     this.logger.debug("In CustomerService::makeServiceCall::"+JSON.stringify(result));
-    //     return result.data;
-
-    // }
-
-    // async makeCall(pattern:any , data:any , clientCustomer:ClientProxy):Promise<any>{
     //     return new Promise((resolve, reject)=>{
-    //         clientCustomer.send<any,any>({cmd: pattern},data).subscribe(
+    //         console.log(this.clientCustomer);
+    //         this.clientCustomer.send<any,any>({cmd: pattern},data).subscribe(
     //             (result) =>{
-    //                 resolve(result) ;
+    //                 if(result.status != 200 && result.status != 201){
+    //                     reject(result);
+    //                 }
+    //                 this.logger.debug("In CustomerService::makeServiceCall::"+JSON.stringify(result));
+    //                 resolve(result.data);
     //             },
     //             (error) => {
+    //                 this.logger.error(error);
     //                 reject({message:"Error while calling customer service",status:HttpStatus.INTERNAL_SERVER_ERROR});
-    //             });
+    //             }
+    //         );
+    //     }).catch(result=>{
+    //         this.logger.debug(" Response from account service with status:"+result.status+" message:"+JSON.stringify(result.message));
+    //         throw new HttpException(result.message,parseInt(result.status));
     //     });
     // }
+
+    async makeServiceCall(pattern:any , data:any){
+        const result = await this.breakerDesign(pattern,data);
+        if(result.status != 200 && result.status != 201){
+            this.logger.debug(" Response from customer service with status:"+result.status+" message:"+JSON.stringify(result.message));
+            throw new HttpException(result.message,parseInt(result.status));
+        }
+        this.logger.debug("In CustomerService::makeServiceCall::"+JSON.stringify(result));
+        return result.data;
+
+    }
+
+    makeCall(pattern:any , data:any):Promise<any>{
+        return new Promise(async (resolve, reject)=>{
+            this.clientCustomer.send<any,any>({cmd: pattern},data).subscribe(
+                (result) =>{
+                    resolve(result) ;
+                },
+                (err) => {
+                    console.log(err);
+                    reject({message:"Error while calling customer service",status:HttpStatus.INTERNAL_SERVER_ERROR});
+                });
+        });
+    }
     
-    // async breakerDesign(pattern:any , data:any):Promise<any>{
-    //     const circuitBreaker = new CircuitBreaker(this.makeCall,this.options);
-    //     return circuitBreaker.fire(pattern , data, this.clientCustomer);
-    // }
+    async breakerDesign(pattern:any , data:any):Promise<any>{
+        const circuitBreaker = new CircuitBreaker(this.makeCall.bind(this),this.options);
+        //console.log(circuitBreaker.status.stats);
+        const result = await circuitBreaker.fire(pattern , data);
+        // circuitBreaker.on('open',()=>{
+        //     return {message:"Unable to reach customer service.Please try later",status:HttpStatus.INTERNAL_SERVER_ERROR}
+        //  });
+        //  circuitBreaker.on('timeout',(error)=>{
+        //      return {message:"Unable to reach customer service.Please try later",status:HttpStatus.INTERNAL_SERVER_ERROR}
+        //   });
+        return result;
+    }
 }
