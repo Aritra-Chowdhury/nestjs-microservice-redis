@@ -11,7 +11,7 @@ import { OfferService } from './../../offer/service/offer.service';
 @Injectable()
 export class LoanService {
     
-    constructor (@InjectModel('Offer') private readonly loanModel : Model<Loan>,
+    constructor (@InjectModel('Loan') private readonly loanModel : Model<Loan>,
     @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
     private offerService : OfferService,
     @Inject("Account_service") private readonly clientAccount: ClientProxy){}
@@ -31,11 +31,13 @@ export class LoanService {
         try{
             offer = await this.offerService.getOfferByofferName(loanDto.offer.offerName);
         }catch(error){
-            throw new RpcException({message:error.message,status:parseInt(error.status)});
+            console.log(error);
+            throw new RpcException({message:error.message,status:HttpStatus.BAD_REQUEST});
         }
 
         loanDto.offer.offerPercentage = offer.offerPercentage;
         loanDto.offer.offerType = offer.offerType;
+        loanDto.status = "Pending";
         loanDto.lastUpdatedDate = Date.now().toString();
 
         loanDto.monthlyEMI = this.calculateMonthlyEMI(loanDto.loanAmount,loanDto.offer.offerPercentage,parseInt(loanDto.loanDuration));
@@ -84,12 +86,26 @@ export class LoanService {
 
     async getLoanById(loanDto : LoanDto):Promise<any>{
         this.logger.debug("In LoanService ::getLoanById::" + loanDto);
-        const loan = this.loanModel.findById(loanDto.loanNumber);
+        const loan = await this.loanModel.findById(loanDto.loanNumber);
 
         if(!loan)
         throw new RpcException({message:'No loan found with the loan number!',status:HttpStatus.NOT_FOUND});
 
         return loan.transform();
+    }
+
+    async getAllLoanByCutomerId(loanDto : LoanDto):Promise<any>{
+        this.logger.debug("In LoanService ::getLoanById::" + loanDto);
+        const loans = await this.loanModel.find({customerId : loanDto.customerId});
+
+        if(loans && loans.length == 0)
+        throw new RpcException({message:'No loan found for the customer id!',status:HttpStatus.NOT_FOUND});
+
+        const loanList = [];
+        loans.forEach((loan)=>{
+            loanList.push(loan.transform())
+        });
+        return loanList;
     }
 
 
@@ -102,7 +118,7 @@ export class LoanService {
                     if(result.status != 200){
                         reject(result);
                     }
-                    this.logger.debug("In Account_service::makeServiceCall::"+JSON.stringify(result));
+                    this.logger.debug("In loan service::makeServiceCall::"+JSON.stringify(result));
                     resolve(result.data);
                 },
                 (error) => {

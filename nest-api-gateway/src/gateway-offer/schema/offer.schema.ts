@@ -5,7 +5,7 @@ export const joiOfferCreateSchema = Joi.object({
     offerType: Joi.string().valid( "Platinum" , "Gold" , "Silver").required(),
     loanType: Joi.string().valid("Home" , "Car" , "Personal").required(),
     offerPercentage : Joi.number().min(0).required(),
- }).unknown();;
+ }).unknown();
 
  export const joiOfferUpdateSchema = Joi.object({
     offerId : Joi.string().max(150).required(),
@@ -13,4 +13,4 @@ export const joiOfferCreateSchema = Joi.object({
     offerType: Joi.string().valid( "Platinum" , "Gold" , "Silver").required(),
     loanType: Joi.string().valid("Home" , "Car" , "Personal").required(),
     offerPercentage : Joi.number().min(0).required()
- }).unknown();;
+ }).unknown();

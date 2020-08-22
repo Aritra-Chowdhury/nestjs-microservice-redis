@@ -12,7 +12,7 @@ export const loanSchema = new mongoose.Schema({
         offerType : {type: String , required: true , enum: [ "Platinum" , "Gold" , "Silver"]},
         offerPercentage : {type: Number ,required: true}
     },
-    status : {type: String , required: true , enum: [ "Pending" , "Approved" , "Rejected"]},
+    status : {type: String , required: true , enum: [ "Pending" , "Approved" , "Rejected"] , default : "Pending"},
     monthlyEMI : {type: Number ,required: true},
     loanCreationDate : {type: Date , required: true , default :Date.now},
     lastUpdatedDate : {type: Date , required: true},

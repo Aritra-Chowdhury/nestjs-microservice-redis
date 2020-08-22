@@ -72,6 +72,7 @@ export class OfferService {
     }
 
     async getOfferByofferName(offerName: string ):Promise<any>{
+        this.logger.debug("In OfferService::getOfferByofferName::"+offerName);
         const offer = await this.offerModel.findOne({offerName : offerName});
         if(!offer) 
         throw new RpcException({message:'No offer found with the offer name!',status:HttpStatus.NOT_FOUND});

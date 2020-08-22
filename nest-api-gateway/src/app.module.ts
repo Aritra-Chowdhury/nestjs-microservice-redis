@@ -9,6 +9,7 @@ import { GatewayCustomerModule } from './gateway-customer/gateway-customer.modul
 import { GatewayAccountModule } from './gateway-account/gateway-account.module';
 import { SharedModule } from './shared/shared.module';
 import { GatewayOfferModule } from './gateway-offer/gateway-offer.module';
+import { GatewayLoanModule } from './gateway-loan/gateway-loan.module';
 import defaultConfiguration from 'config/default.configuration';
 
 @Module({
@@ -33,7 +34,8 @@ import defaultConfiguration from 'config/default.configuration';
         new winston.transports.Console(),
       ]
     }),
-    GatewayOfferModule
+    GatewayOfferModule,
+    GatewayLoanModule
   
   ],
   controllers: [AppController],
