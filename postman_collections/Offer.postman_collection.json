@@ -1,0 +1,136 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Offer",
+		"_postman_id": "3be24281-8c97-2262-d89f-4b169c5007a8",
+		"description": "Offer related details",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get offer by loan type",
+			"request": {
+				"url": "http://localhost:3000/api/v1/offer/type/Home",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzZTM5NjIyOTcxNmYxYWQwYmM5ZjlmIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc5OTQ4OTQsImV4cCI6MTU5ODAwNDg5NH0.AgnzM94Bu_fVIT4fCVXQdDgzFiULPBcLsBqPsraNqgw",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"offerName\" : \"Offer4\",\r\n    \"offerType\" : \"Gold\",\r\n    \"loanType\" : \"Car\",\r\n    \"offerPercentage\" : 12.5\r\n}"
+				},
+				"description": "http://localhost:3000/api/v1/offer/type/Home"
+			},
+			"response": []
+		},
+		{
+			"name": "Get offer by offer name",
+			"request": {
+				"url": "http://localhost:3000/api/v1/offer/Offer1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzZTM5NjIyOTcxNmYxYWQwYmM5ZjlmIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc5OTQ4OTQsImV4cCI6MTU5ODAwNDg5NH0.AgnzM94Bu_fVIT4fCVXQdDgzFiULPBcLsBqPsraNqgw",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"offerName\" : \"Offer4\",\r\n    \"offerType\" : \"Gold\",\r\n    \"loanType\" : \"Car\",\r\n    \"offerPercentage\" : 12.5\r\n}"
+				},
+				"description": "http://localhost:3000/api/v1/offer/Offer1"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all offer",
+			"request": {
+				"url": "http://localhost:3000/api/v1/offer",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzZTM5NjIyOTcxNmYxYWQwYmM5ZjlmIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc5OTQ4OTQsImV4cCI6MTU5ODAwNDg5NH0.AgnzM94Bu_fVIT4fCVXQdDgzFiULPBcLsBqPsraNqgw",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"offerName\" : \"Offer4\",\r\n    \"offerType\" : \"Gold\",\r\n    \"loanType\" : \"Car\",\r\n    \"offerPercentage\" : 12.5\r\n}"
+				},
+				"description": "http://localhost:3000/api/v1/offer"
+			},
+			"response": []
+		},
+		{
+			"name": "Create offer",
+			"request": {
+				"url": "http://localhost:3000/api/v1/offer",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzZTM5NjIyOTcxNmYxYWQwYmM5ZjlmIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc5OTQ4OTQsImV4cCI6MTU5ODAwNDg5NH0.AgnzM94Bu_fVIT4fCVXQdDgzFiULPBcLsBqPsraNqgw",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"offerName\" : \"Offer4\",\r\n    \"offerType\" : \"Gold\",\r\n    \"loanType\" : \"Car\",\r\n    \"offerPercentage\" : 12.5\r\n}"
+				},
+				"description": "http://localhost:3000/api/v1/offer"
+			},
+			"response": []
+		},
+		{
+			"name": "Update existing offer",
+			"request": {
+				"url": "http://localhost:3000/api/v1/offer",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzZTM5NjIyOTcxNmYxYWQwYmM5ZjlmIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTc5OTQ4OTQsImV4cCI6MTU5ODAwNDg5NH0.AgnzM94Bu_fVIT4fCVXQdDgzFiULPBcLsBqPsraNqgw",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"offerName\": \"Offer4\",\n        \"offerType\": \"Gold\",\n        \"loanType\": \"Personal\",\n        \"offerPercentage\": 12.5,\n        \"lastUpdateDate\": \"2020-08-21T07:54:14.995Z\",\n        \"offerId\": \"5f3f7da627edc1144cd19313\"\n}"
+				},
+				"description": "http://localhost:3000/api/v1/offer"
+			},
+			"response": []
+		}
+	]
+}

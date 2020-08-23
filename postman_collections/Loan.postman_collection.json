@@ -1,0 +1,136 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Loan",
+		"_postman_id": "6f2b2951-73ab-52c8-20e4-eeb6086e94a1",
+		"description": "All loan related crud operation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create loan",
+			"request": {
+				"url": "http://localhost:3000/api/v1/loan",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzZTM5NjIyOTcxNmYxYWQwYmM5ZjlmIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTgwNzYwOTIsImV4cCI6MTU5ODA4NjA5Mn0.a2_x668oua-uuxAyTYg8Lub77aoaU-UArA_-7PPWo6U",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountNumber\" : \"5f3e3a3ac249d91670ba6fa6\",\r\n    \"loanType\" : \"Home\",\r\n    \"loanAmount\" : 100000,\r\n    \"loanDuration\" : 10,\r\n    \"offer\" : {\r\n        \"offerName\" : \"Offer1\"\r\n    }\r\n}"
+				},
+				"description": "http://localhost:3000/api/v1/loan"
+			},
+			"response": []
+		},
+		{
+			"name": "Create loan copy",
+			"request": {
+				"url": "http://localhost:3000/api/v1/loan",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzZTM5NjIyOTcxNmYxYWQwYmM5ZjlmIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTgwNzYwOTIsImV4cCI6MTU5ODA4NjA5Mn0.a2_x668oua-uuxAyTYg8Lub77aoaU-UArA_-7PPWo6U",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountNumber\" : \"5f3e3a3ac249d91670ba6fa6\",\r\n    \"loanType\" : \"Home\",\r\n    \"loanAmount\" : 100000,\r\n    \"loanDuration\" : 10,\r\n    \"offer\" : {\r\n        \"offerName\" : \"Offer1\"\r\n    }\r\n}"
+				},
+				"description": "http://localhost:3000/api/v1/loan"
+			},
+			"response": []
+		},
+		{
+			"name": "Update a loan",
+			"request": {
+				"url": "http://localhost:3000/api/v1/loan",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzZTM5NjIyOTcxNmYxYWQwYmM5ZjlmIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTgwNzYwOTIsImV4cCI6MTU5ODA4NjA5Mn0.a2_x668oua-uuxAyTYg8Lub77aoaU-UArA_-7PPWo6U",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\t\"loanNumber\":\"5f40b9fac5039502c0a1eec2\",\r\n    \"loanAmount\" : 200000,\r\n    \"loanDuration\" : 10,\r\n    \"offer\" : {\r\n        \"offerName\" : \"Offer1\"\r\n    }\r\n}"
+				},
+				"description": "http://localhost:3000/api/v1/loan"
+			},
+			"response": []
+		},
+		{
+			"name": "Change the status of the loan",
+			"request": {
+				"url": "http://localhost:3000/api/v1/loan/status",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzZTM5NjIyOTcxNmYxYWQwYmM5ZjlmIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTgwNzYwOTIsImV4cCI6MTU5ODA4NjA5Mn0.a2_x668oua-uuxAyTYg8Lub77aoaU-UArA_-7PPWo6U",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\t\"loanNumber\":\"5f40b9fac5039502c0a1eec2\",\r\n     \"status\": \"Approved\"\r\n}"
+				},
+				"description": "http://localhost:3000/api/v1/loan/status"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all loan by customer Id",
+			"request": {
+				"url": "http://localhost:3000/api/v1/loan",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNWYzZTM5NjIyOTcxNmYxYWQwYmM5ZjlmIiwibmFtZSI6IkFyaXRyYSBDaG93ZGh1cnkiLCJpYXQiOjE1OTgwNzYwOTIsImV4cCI6MTU5ODA4NjA5Mn0.a2_x668oua-uuxAyTYg8Lub77aoaU-UArA_-7PPWo6U",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\t\"loanNumber\":\"5f40b9fac5039502c0a1eec2\",\r\n     \"status\": \"Approved\"\r\n}"
+				},
+				"description": "http://localhost:3000/api/v1/loan"
+			},
+			"response": []
+		}
+	]
+}
