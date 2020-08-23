@@ -1,4 +1,4 @@
-# nestjs-microservice-redis
+# API Gateway service
 A banking-management-application ,used for creating and maintain customer account. It also allows the customer to apply for a loan.
 
 ## Author
