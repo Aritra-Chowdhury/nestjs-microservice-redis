@@ -32,11 +32,11 @@ It divides a large application into micro services which can be scaled and maint
 
 - [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 - [NodeJs](https://nodejs.org/en/docs)
-- [Redis] (https://www.npmjs.com/package/redis) framework for message broker.
-- [Opossum] (https://nodeshift.dev/opossum/) Circuit Breaker.
-- [MongoDB] (https://www.mongodb.com/) for storing data.
-- [JWT] (https://jwt.io/) for Authentication.
-- [Jest] (https://jestjs.io/docs/en/getting-started) Testing framework for Junit and integration testing.
+- [Redis](https://www.npmjs.com/package/redis) framework for message broker.
+- [Opossum](https://nodeshift.dev/opossum/) Circuit Breaker.
+- [MongoDB](https://www.mongodb.com/) for storing data.
+- [JWT](https://jwt.io/) for Authentication.
+- [Jest](https://jestjs.io/docs/en/getting-started) Testing framework for Junit and integration testing.
 
 ## Getting started
 
@@ -79,11 +79,11 @@ The post collections will help in understanding the API Endpoints , request and 
 
 - [Nest](https://docs.nestjs.com/)
 - [NodeJs](https://nodejs.org/en/docs)
-- [Redis] (https://www.npmjs.com/package/redis) framework for message broker.
-- [Opossum] (https://nodeshift.dev/opossum/) Circuit Breaker.
-- [MongoDB] (https://www.npmjs.com/package/mongoose) for storing data.
-- [JWT] (https://www.npmjs.com/package/passport-jwt)
-- [Jest] (https://jestjs.io/docs/en/getting-started) Testing framework for Junit and integration testing.
+- [Redis](https://www.npmjs.com/package/redis) framework for message broker.
+- [Opossum](https://nodeshift.dev/opossum/) Circuit Breaker.
+- [MongoDB](https://www.npmjs.com/package/mongoose) for storing data.
+- [JWT](https://www.npmjs.com/package/passport-jwt)
+- [Jest](https://jestjs.io/docs/en/getting-started) Testing framework for Junit and integration testing.
 
 ## License
 
