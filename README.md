@@ -55,10 +55,15 @@ The application is divided into four different node application as follows:
 4. Create sample .env as below in each of the service and initialize the configuration.
 
 	AUTH_PRIVATE_KEY=
+	
 	PORT=
+	
 	REDIS_URL=
+	
 	DATABASE_NAME=
+	
 	DATABASE_USERNAME=
+	
 	DATABASE_PASSWORD=
 	
 ### Postman collections

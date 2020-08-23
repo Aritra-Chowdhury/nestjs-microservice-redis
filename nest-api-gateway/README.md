@@ -24,7 +24,7 @@ It divides a large application into micro services which can be scaled and maint
 
 ## Diagram
 
-![Banking API Architecture diagram](/nest-api-gateway/readme_images/Architecture-diagram-api-gateway.png)
+![Banking API Architecture diagram](/readme_images/Architecture-diagram-api-gateway.png)
 
 ## Description
 
