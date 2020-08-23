@@ -6,7 +6,7 @@ export const offerSchema = new mongoose.Schema({
     offerType : {type: String , required: true , enum: [ "Platinum" , "Gold" , "Silver"]},
     loanType : {type: String , required: true , enum: [ "Home" , "Car" , "Personal"]},
     lastUpdateDate : {type: Date , required: true , default :Date.now},
-    offerPercentage : {type: Number}
+    offerPercentage : {type: Number , required: true}
 });
 
 offerSchema.method('transform',function(){

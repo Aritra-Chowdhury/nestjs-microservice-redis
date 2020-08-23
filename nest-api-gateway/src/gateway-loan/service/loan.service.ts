@@ -9,9 +9,9 @@ export class LoanService {
     constructor (@Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
     @Inject("Loan_service") private readonly clientLoan: ClientProxy){}
 
-    async onApplicationBootstrap():Promise<void> {
-        await this.clientLoan.connect();
-    }
+    // async onApplicationBootstrap():Promise<void> {
+    //     await this.clientLoan.connect();
+    // }
     options:any = {
         timeout: 3000, // If our function takes longer than 3 seconds, trigger a failure
         errorThresholdPercentage: 50, // When 50% of requests fail, trip the circuit

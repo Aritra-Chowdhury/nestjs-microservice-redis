@@ -22,7 +22,7 @@ async function bootstrap() {
                     .build();
 
   const document = SwaggerModule.createDocument(app,options);
-  const swaggerDocument= fs.readFileSync(path.resolve(__dirname, '../../swagger.json')).toString();
+  const swaggerDocument= fs.readFileSync(path.resolve(__dirname, '../../swagger-files/swagger.json')).toString();
 
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(JSON.parse(swaggerDocument)));
 

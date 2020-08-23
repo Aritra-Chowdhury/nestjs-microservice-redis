@@ -1,0 +1,1466 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "A banking-management-application ,used for creating and maintain customer account. It also allows the customer to apply for a loan.",
+    "version": "1.0.0",
+    "title": "Banking API",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "chowdhuryaritra96@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "customer",
+      "description": "Everything about the customer."
+    },
+    {
+      "name": "account",
+      "description": "Account related opertaions for the customer account."
+    },
+    {
+      "name": "offer",
+      "description": "offer related opertaions."
+    },
+    {
+      "name": "loan",
+      "description": "Loan related opertaions."
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/customer/register": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Register a new customer",
+        "description": "Allows user to register into the application.",
+        "operationId": "register",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Customer object that needs to be registered.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CustomerBasic"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User registered successful.",
+            "schema": {
+              "$ref": "#/definitions/CustomerBasic"
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          }
+        }
+      }
+    },
+    "/customer/login": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Customers can login into the application",
+        "description": "Allows user to login into the appliation with either customerId or email and password",
+        "operationId": "login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Customer object that needs to be registered.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CustomerBasic"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User registered successful.",
+            "schema": {
+              "$ref": "#/definitions/CustomerBasic"
+            },
+            "headers": {
+              "x-auth-token": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/customer": {
+      "put": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Update an existing customer",
+        "description": "",
+        "operationId": "updateCustomer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Customer details object that needs to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer details update successful.",
+            "schema": {
+              "$ref": "#/definitions/CustomerReponse"
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/customer/{customerId}": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Find customer by customerID",
+        "description": "Returns a single customer",
+        "operationId": "getCustomerById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "CustomerID of customer to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/CustomerReponse"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/account": {
+      "post": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Creates an bank account for the customer",
+        "description": "Allows user to create a new bank account.",
+        "operationId": "createAccount",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Account object that needs to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account created successful.",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Update an existing account",
+        "description": "",
+        "operationId": "updateAccount",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Account details object that needs to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account details update successful.",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "account not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Find all account for a customer",
+        "description": "Returns an array of Account details",
+        "operationId": "getAccountByCustomerId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/account/{accountId}": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Find account by accountID",
+        "description": "Returns a single Account details",
+        "operationId": "getAccountById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "AccountID of account to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Account not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Remove/deactivate an account",
+        "description": "Remove/deactivate an account",
+        "operationId": "removeAccountById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "AccountID of the account to remove",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account succesfully removed/deactivated.",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid AccountID supplied"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Account not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/offer": {
+      "post": {
+        "tags": [
+          "offer"
+        ],
+        "summary": "Creates an offer",
+        "description": "Allows admin to create a offer.",
+        "operationId": "createOffer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Offer object that needs to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Offer"
+            }
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Offer created successful.",
+            "schema": {
+              "$ref": "#/definitions/Offer"
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "offer"
+        ],
+        "summary": "Updates an offer",
+        "description": "Allows admin to update a offer.",
+        "operationId": "updateOffer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Offer object that needs to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Offer"
+            }
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Offer created successful."
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Offer not found",
+            "schema": {
+              "$ref": "#/definitions/Offer"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "offer"
+        ],
+        "summary": "Find all offer.",
+        "description": "Returns an array of offer details",
+        "operationId": "getAllOffer",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Offer"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Offer not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/offer/{offerName}": {
+      "get": {
+        "tags": [
+          "offer"
+        ],
+        "summary": "Find offer by offerName",
+        "description": "Returns a single offer details",
+        "operationId": "getOfferByofferName",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "offerName",
+            "in": "path",
+            "description": "OfferName of offer to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Offer"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "OfferName not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/offer/{loanType}/{offerType}": {
+      "get": {
+        "tags": [
+          "offer"
+        ],
+        "summary": "Find offer by loanType and offerType",
+        "description": "Returns a single offer details",
+        "operationId": "getOfferByLoanTypeAndOfferType",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "loanType",
+            "in": "path",
+            "description": "loanType of offer to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "offerType",
+            "in": "path",
+            "description": "offerType of offer to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Offer"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Offer not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/loan": {
+      "post": {
+        "tags": [
+          "loan"
+        ],
+        "summary": "Creates a loan for a customer",
+        "description": "Allows user to create a loan.",
+        "operationId": "createLoan",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Loan object that needs to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Loan"
+            }
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Loan created successful.",
+            "schema": {
+              "$ref": "#/definitions/Loan"
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "loan"
+        ],
+        "summary": "Updates a loan for a customer",
+        "description": "Allows user to update a loan.",
+        "operationId": "updateLoan",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Loan object that needs to be updates.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Loan"
+            }
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Loan created successful.",
+            "schema": {
+              "$ref": "#/definitions/Loan"
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "loan"
+        ],
+        "summary": "Find all loan.",
+        "description": "Returns an array of loan details for a customer",
+        "operationId": "getAllLoanByCutomerId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Loan"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Loan not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/loan/{loanNumber}": {
+      "get": {
+        "tags": [
+          "loan"
+        ],
+        "summary": "Find loan by loanNumber",
+        "description": "Returns a single loan details",
+        "operationId": "getLoanById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "loanNumber",
+            "in": "path",
+            "description": "Loan Number of loan to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Loan"
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "loanNumber not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/loan/status": {
+      "put": {
+        "tags": [
+          "loan"
+        ],
+        "summary": "Updates a loan for a customer",
+        "description": "Allows admin to verify a loan and updates the status.",
+        "operationId": "validateLoan",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Loan object that needs to be updates.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoanValidate"
+            }
+          },
+          {
+            "in": "header",
+            "type": "string",
+            "name": "x-auth-token",
+            "description": "Authentication token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Loan created successful.",
+            "schema": {
+              "$ref": "#/definitions/Loan"
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "name": "x-auth-token",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "CustomerBasic": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "description": "CustomerId for customer."
+        },
+        "isActive": {
+          "type": "string",
+          "description": "Customer account status."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the customer."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email Id of the customer."
+        },
+        "password": {
+          "type": "string",
+          "description": "Credential to login in the appliation."
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "password"
+      ]
+    },
+    "Customer": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "description": "CustomerId for customer."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the customer."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email Id of the customer."
+        },
+        "password": {
+          "type": "string",
+          "description": "Credential to login in the appliation."
+        },
+        "userDetails": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/UserDetails"
+            }
+          ],
+          "description": "Personal details of the customer."
+        },
+        "mailingAddress": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/MailingAddress"
+            }
+          ],
+          "description": "Mailing address of the customer."
+        }
+      },
+      "required": [
+        "customerId"
+      ],
+      "xml": {
+        "name": "Customer"
+      }
+    },
+    "CustomerReponse": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "description": "CustomerId for customer."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the customer."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email Id of the customer."
+        },
+        "userDetails": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/UserDetails"
+            }
+          ],
+          "description": "Personal details of the customer."
+        },
+        "mailingAddress": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/MailingAddress"
+            }
+          ],
+          "description": "Mailing address of the customer."
+        }
+      },
+      "xml": {
+        "name": "CustomerReponse"
+      }
+    },
+    "UserDetails": {
+      "type": "object",
+      "properties": {
+        "dob": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date of the birth of the customer."
+        },
+        "martialStatus": {
+          "type": "string",
+          "description": "Martial status of the customer.",
+          "enum": [
+            "unmarried",
+            "married",
+            "separated"
+          ]
+        },
+        "panCard": {
+          "type": "string",
+          "description": "Pan Card number of the customer."
+        },
+        "nationality": {
+          "type": "string",
+          "description": "Nationality of the customer."
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "Phone number of the customer."
+        }
+      },
+      "required": [
+        "dob",
+        "martialStatus",
+        "panCard",
+        "nationality",
+        "phoneNumber"
+      ],
+      "xml": {
+        "name": "UserDetails"
+      }
+    },
+    "MailingAddress": {
+      "type": "object",
+      "properties": {
+        "address1": {
+          "type": "string",
+          "description": "Mailing address1 of the customer."
+        },
+        "address2": {
+          "type": "string",
+          "description": "Mailing address2 of the customer."
+        },
+        "city": {
+          "type": "string",
+          "description": "Mailing city of the customer."
+        },
+        "state": {
+          "type": "string",
+          "description": "Mailing state of the customer."
+        },
+        "country": {
+          "type": "string",
+          "description": "Mailing country of the customer."
+        },
+        "zipCode": {
+          "type": "string",
+          "description": "Mailing zip-code of the customer."
+        }
+      },
+      "required": [
+        "address1",
+        "city",
+        "state",
+        "country",
+        "zipCode"
+      ],
+      "xml": {
+        "name": "MailingAddress"
+      }
+    },
+    "Account": {
+      "type": "object",
+      "properties": {
+        "accountNumber": {
+          "type": "string",
+          "description": "Account_number for the customer account."
+        },
+        "accountType": {
+          "type": "string",
+          "enum": [
+            "Current",
+            "Saving",
+            "Credit"
+          ],
+          "description": "Account_type for the customer account."
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Customer_id of the customer."
+        },
+        "userDetails": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/UserDetails"
+            }
+          ],
+          "description": "Personal details of the customer."
+        },
+        "mailingAddress": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/MailingAddress"
+            }
+          ],
+          "description": "Mailing address of the customer."
+        },
+        "openingDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account opening date.",
+          "default": "current date"
+        },
+        "closingDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account closing date.",
+          "default": ""
+        }
+      },
+      "required": [
+        "accountType",
+        "customerId",
+        "userDetails",
+        "mailingAddress",
+        "zipCode"
+      ],
+      "xml": {
+        "name": "Account"
+      }
+    },
+    "Offer": {
+      "type": "object",
+      "properties": {
+        "offerId": {
+          "type": "string",
+          "description": "offer Id for a offer"
+        },
+        "offerName": {
+          "type": "string",
+          "description": "Name of the offer."
+        },
+        "offerType": {
+          "type": "string",
+          "enum": [
+            "Platinum",
+            "Gold",
+            "Silver"
+          ],
+          "description": "Type of the offer."
+        },
+        "loanType": {
+          "type": "string",
+          "enum": [
+            "Home",
+            "Car",
+            "Personal"
+          ],
+          "description": "Type of the loan."
+        },
+        "offerPercentage": {
+          "type": "number",
+          "description": "Rate of interest of the offer."
+        },
+        "lastUpdateDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account last Update Date.",
+          "default": "current date"
+        }
+      },
+      "required": [
+        "offerName",
+        "offerType",
+        "loanType",
+        "offerPercentage"
+      ],
+      "xml": {
+        "name": "Offer"
+      }
+    },
+    "OfferLoan": {
+      "type": "object",
+      "properties": {
+        "offerName": {
+          "type": "string",
+          "description": "Name of the offer."
+        },
+        "offerType": {
+          "type": "string",
+          "enum": [
+            "Platinum",
+            "Gold",
+            "Silver"
+          ],
+          "description": "Type of the offer."
+        },
+        "offerPercentage": {
+          "type": "number",
+          "description": "Rate of interest of the offer."
+        }
+      },
+      "required": [
+        "offerName",
+        "offerType"
+      ],
+      "xml": {
+        "name": "OfferLoan"
+      }
+    },
+    "Loan": {
+      "type": "object",
+      "properties": {
+        "loanNumber": {
+          "type": "string",
+          "description": "loan number for a loan"
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Customer_id of the customer."
+        },
+        "accountNumber": {
+          "type": "string",
+          "description": "Account_number for the customer account."
+        },
+        "loanType": {
+          "type": "string",
+          "enum": [
+            "Home",
+            "Car",
+            "Personal"
+          ],
+          "description": "Type of the loan."
+        },
+        "loanAmount": {
+          "type": "number",
+          "description": "Amount of a loan."
+        },
+        "loanDuration": {
+          "type": "number",
+          "enum": [
+            10,
+            15,
+            30
+          ],
+          "description": "Duration of a loan."
+        },
+        "offer": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/OfferLoan"
+            }
+          ],
+          "description": "Offer details for a loan."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Pending",
+            "Approved",
+            "Rejected"
+          ],
+          "description": "Status of the loan.",
+          "default": "Pending"
+        },
+        "monthlyEMI": {
+          "type": "number",
+          "description": "monthly EMI amount to be paid."
+        },
+        "loanCreationDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Loan creationg date.",
+          "default": "current date"
+        },
+        "lastUpdateDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account last Update Date.",
+          "default": "current date"
+        }
+      },
+      "required": [
+        "accountNumber",
+        "loanAmount",
+        "loanType",
+        "offer",
+        "loanDuration"
+      ],
+      "xml": {
+        "name": "Loan"
+      }
+    },
+    "LoanValidate": {
+      "type": "object",
+      "properties": {
+        "loanNumber": {
+          "type": "string",
+          "description": "loan number for a loan"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Pending",
+            "Approved",
+            "Rejected"
+          ],
+          "description": "Status of the loan.",
+          "default": "Pending"
+        }
+      },
+      "required": [
+        "loanNumber",
+        "status"
+      ],
+      "xml": {
+        "name": "LoanValidate"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
