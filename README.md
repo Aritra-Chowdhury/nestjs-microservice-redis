@@ -53,18 +53,6 @@ The application is divided into four different node application as follows:
 2. Redis server running locally or using docker or remotely.
 3. NodeJs greater than version 10 installed locally.
 4. Create sample .env as below in each of the service and initialize the configuration.
-
-	AUTH_PRIVATE_KEY=
-	
-	PORT=
-	
-	REDIS_URL=
-	
-	DATABASE_NAME=
-	
-	DATABASE_USERNAME=
-	
-	DATABASE_PASSWORD=
 	
 ### Postman collections
 
