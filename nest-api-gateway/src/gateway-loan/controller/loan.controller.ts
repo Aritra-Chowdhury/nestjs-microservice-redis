@@ -51,9 +51,9 @@ export class LoanController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async getAllLoanByCutomerId(@Req() req: any, @Res() res: any):Promise<any>{
-        this.logger.debug("In Loan Controller ::getAllLoanByCutomerId::");
-        const loan = await this.loanService.getAllLoanByCutomerId(req.body.customerId);
+    async getAllLoanByCustomerId(@Req() req: any, @Res() res: any):Promise<any>{
+        this.logger.debug("In Loan Controller ::getAllLoanByCustomerId::");
+        const loan = await this.loanService.getAllLoanByCustomerId(req.body.customerId);
         return res.status(200).send(loan);
     }
 }

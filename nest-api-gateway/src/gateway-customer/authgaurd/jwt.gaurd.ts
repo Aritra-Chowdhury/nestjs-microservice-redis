@@ -34,7 +34,7 @@ import { Reflector } from '@nestjs/core';
       return this.validateRequestHeader(request);
     }
 
-    async validateRequestHeader(request) : Promise<boolean>{
+    async validateRequestHeader(request:any) : Promise<boolean>{
       if(!request.header('x-auth-token')) throw new UnauthorizedException(HttpStatus.UNAUTHORIZED,'Auth key not present');
       else{
         try{

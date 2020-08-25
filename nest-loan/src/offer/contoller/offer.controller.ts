@@ -13,7 +13,7 @@ export class OfferController {
     @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger){}
 
     @MessagePattern({cmd:'createOffer'})
-        async createOffer(offerDto: OfferDto):Promise<any>{
+    async createOffer(offerDto: OfferDto):Promise<any>{
         this.logger.debug("In Offer Controller ::createOffer::" + offerDto);
         const offer = await this.offerService.createOffer(offerDto);
         return this.getResponse(offer,HttpStatus.CREATED);
@@ -21,20 +21,20 @@ export class OfferController {
 
     @MessagePattern({cmd:'updateOffer'})
     async updateOffer(offerDto: OfferDto):Promise<any>{
-    this.logger.debug("In Offer Controller ::updateOffer::" + offerDto);
-    const offer = await this.offerService.updateOffer(offerDto);
-    return this.getResponse(offer,HttpStatus.OK);
+        this.logger.debug("In Offer Controller ::updateOffer::" + offerDto);
+        const offer = await this.offerService.updateOffer(offerDto);
+        return this.getResponse(offer,HttpStatus.OK);
     }
 
     @MessagePattern({cmd:'getOfferByLoanTypeAndOfferType'})
-        async getOfferByLoanTypeAndOfferType(offerData:OfferDto):Promise<any>{
+    async getOfferByLoanTypeAndOfferType(offerData:OfferDto):Promise<any>{
         this.logger.debug("In Offer Controller ::getOfferByLoanTypeAndOfferType::" + offerData);
         const offers = await this.offerService.getOfferByLoanTypeAndOfferType(offerData.loanType,offerData.offerType);
         return this.getResponse(offers,HttpStatus.OK);
     }
 
     @MessagePattern({cmd:'getAllOffer'})
-        async getAllOffer():Promise<any>{
+    async getAllOffer():Promise<any>{
         this.logger.debug("In Offer Controller ::getAllOffer::");
         const offers = await this.offerService.getAllOffer();
         return this.getResponse(offers,HttpStatus.OK);
@@ -42,9 +42,9 @@ export class OfferController {
 
     @MessagePattern({cmd:'getOfferByofferName'})
     async getOfferByofferName(offerName: string):Promise<any>{
-    this.logger.debug("In Offer Controller ::getOfferByofferName::" + offerName);
-    const offer = await this.offerService.getOfferByofferName(offerName);
-    return this.getResponse(offer,HttpStatus.OK);
+        this.logger.debug("In Offer Controller ::getOfferByofferName::" + offerName);
+        const offer = await this.offerService.getOfferByofferName(offerName);
+        return this.getResponse(offer,HttpStatus.OK);
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

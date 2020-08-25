@@ -16,7 +16,7 @@ export class OfferService {
         this.logger.debug("In OfferService::createOffer");
 
         const offerCheck = await this.offerModel.findOne({offerName : offerDto.offerName});
-        if(offerCheck) throw new RpcException({message:'Offer with offer name already exist!',status:HttpStatus.BAD_REQUEST});
+        if(offerCheck) throw new RpcException({status:HttpStatus.BAD_REQUEST , message:'Offer with offer name already exist!'});
         
         const offerValidate = await this.offerModel.find({offerType : offerDto.offerType, loanType : offerDto.loanType});
         if(offerValidate) throw new RpcException({message:`Offer with offerType:${offerDto.offerType} already exist for loanType:${offerDto.loanType} !`,status:HttpStatus.BAD_REQUEST});

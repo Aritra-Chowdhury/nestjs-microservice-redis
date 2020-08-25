@@ -13,8 +13,8 @@ describe('Customer Controller', () => {
   let jwtService: JwtService;
   let customerDto: CustomerDto;
   let customerService : CustomerService;
+  let request:any;
   
-
   function MockClientProxy() {
     this.data;
     this.send =() => {
@@ -68,11 +68,12 @@ describe('Customer Controller', () => {
 
   describe('validateRequestHeader',()=>{
     const exec = async (requestData)=>{
-      let request = {
+    request = {
           header : jest.fn().mockReturnValue(requestData),
           body : {
             customerId : '',
-            customer : ''
+            customer : '',
+            userRoles : ''
           }
       };
       return jwtAuthGaurd.validateRequestHeader(request);
@@ -80,6 +81,14 @@ describe('Customer Controller', () => {
 
     it('should be able to verify token',async ()=>{
       const payload = {customerId : customerDto.customerId, name : customerDto.name};
+      const token = jwtService.sign(payload);
+
+      const result = await exec(token);
+      expect(result).toBeTruthy();
+    });
+
+    it('should be able to verify token for admin',async ()=>{
+      const payload = {customerId : customerDto.customerId, name : 'Admin'};
       const token = jwtService.sign(payload);
 
       const result = await exec(token);
@@ -128,7 +137,34 @@ describe('Customer Controller', () => {
       }
     });
 
-  })
+  });
+
+  describe('matchRoles',()=>{
+    const exec = async (roles:any, userRoles:string)=>{
+      return jwtAuthGaurd.matchRoles(roles, userRoles);
+    }
+
+    it('should be able to verify token',async ()=>{
+      const roles = ['admin'];
+      const userRoles = 'admin';
+      const result = await exec(roles,userRoles);
+      expect(result).toBeTruthy();
+    });
+
+
+    it('should throw User not authorized. Please try with an admin user',async ()=>{
+      try{
+
+        const roles = ['admin'];
+        const userRoles = '';
+         await exec(roles,userRoles);
+      }catch(error){
+        expect(error.response.error).toBe('User not authorized. Please try with an admin user');
+        expect(error.status).toBe(401);
+      }
+    });
+
+  });
 
 
   it('should be defined', () => {

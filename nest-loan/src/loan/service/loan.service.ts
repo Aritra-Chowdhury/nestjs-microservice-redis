@@ -37,7 +37,6 @@ export class LoanService {
         try{
             offer = await this.offerService.getOfferByofferName(loanDto.offer.offerName);
         }catch(error){
-            console.log(error);
             throw new RpcException({message:error.message,status:HttpStatus.BAD_REQUEST});
         }
 
@@ -62,7 +61,7 @@ export class LoanService {
         try{
             offer = await this.offerService.getOfferByofferName(loanDto.offer.offerName);
         }catch(error){
-            throw new RpcException({message:error.message,status:parseInt(error.status)});
+            throw new RpcException({message:error.message,status:HttpStatus.BAD_REQUEST});
         }
         loanDto.offer.offerPercentage = offer.offerPercentage;
         loanDto.lastUpdatedDate = Date.now().toString();
@@ -101,8 +100,8 @@ export class LoanService {
         return loan.transform();
     }
 
-    async getAllLoanByCutomerId(loanDto : LoanDto):Promise<any>{
-        this.logger.debug("In LoanService ::getLoanById::" + loanDto);
+    async getAllLoanByCustomerId(loanDto : LoanDto):Promise<any>{
+        this.logger.debug("In LoanService ::getAllLoanByCustomerId::" + loanDto);
         const loans = await this.loanModel.find({customerId : loanDto.customerId});
 
         if(loans && loans.length == 0)

@@ -41,11 +41,11 @@ export class LoanService {
         return this.makeServiceCall('getLoanById', loanDto);
     }
 
-    async getAllLoanByCutomerId(customerId : string):Promise<any>{
-        this.logger.debug("In LoanService ::getAllLoanByCutomerId::" + customerId);
+    async getAllLoanByCustomerId(customerId : string):Promise<any>{
+        this.logger.debug("In LoanService ::getAllLoanByCustomerId::" + customerId);
         let loanDto : LoanDto =new LoanDto();
         loanDto.customerId = customerId;
-        return this.makeServiceCall('getAllLoanByCutomerId', loanDto);
+        return this.makeServiceCall('getAllLoanByCustomerId', loanDto);
     }
 
     

@@ -40,10 +40,10 @@ export class LoanController {
         return this.getResponse(loan,HttpStatus.OK);
     }
 
-    @MessagePattern({cmd:'getAllLoanByCutomerId'})
-    async getAllLoanByCutomerId(loanDto : LoanDto):Promise<any>{
+    @MessagePattern({cmd:'getAllLoanByCustomerId'})
+    async getAllLoanByCustomerId(loanDto : LoanDto):Promise<any>{
         this.logger.debug("In Loan Controller ::getAllLoanByCutomerId::" + loanDto);
-        const loan = await this.loanService.getAllLoanByCutomerId(loanDto);
+        const loan = await this.loanService.getAllLoanByCustomerId(loanDto);
         return this.getResponse(loan,HttpStatus.OK);
     }
 
