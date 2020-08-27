@@ -19,7 +19,7 @@ export class OfferService {
         if(offerCheck) throw new RpcException({status:HttpStatus.BAD_REQUEST , message:'Offer with offer name already exist!'});
         
         const offerValidate = await this.offerModel.find({offerType : offerDto.offerType, loanType : offerDto.loanType});
-        if(offerValidate) throw new RpcException({message:`Offer with offerType:${offerDto.offerType} already exist for loanType:${offerDto.loanType} !`,status:HttpStatus.BAD_REQUEST});
+        if(offerValidate && offerValidate.length != 0) throw new RpcException({message:`Offer with offerType:${offerDto.offerType} already exist for loanType:${offerDto.loanType} !`,status:HttpStatus.BAD_REQUEST});
 
         const offer = await this.offerModel(offerDto);
         await offer.save();
@@ -32,7 +32,11 @@ export class OfferService {
         if(offer && offer._id !=offerDto.offerId ) throw new RpcException({message:'Offer with offer name already exist!',status:HttpStatus.BAD_REQUEST});
         
         const offerCheck = await this.offerModel.find({offerType : offerDto.offerType, loanType : offerDto.loanType});
-        if(offerCheck && offerCheck._id !=offerDto.offerId ) throw new RpcException({message:`Offer with offerType:${offerDto.offerType} already exist for loanType:${offerDto.loanType} !`,status:HttpStatus.BAD_REQUEST});
+        console.log(offerCheck);
+        console.log(offerCheck[0]._id);
+        console.log(offerCheck[0]._id != offerDto.offerId);
+
+        if(offerCheck && offerCheck[0]._id != offerDto.offerId ) throw new RpcException({message:`Offer with offerType:${offerDto.offerType} already exist for loanType:${offerDto.loanType} !`,status:HttpStatus.BAD_REQUEST});
  
         offerDto.lastUpdateDate = Date.now().toString();
         const updateOffer = await this.offerModel.findByIdAndUpdate(offerDto.offerId,{
